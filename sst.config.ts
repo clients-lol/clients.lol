@@ -10,8 +10,12 @@ export default $config({
         };
     },
     async run() {
-        const { url } = new sst.cloudflare.x.Astro("Blog", {
+        const { url } = new sst.cloudflare.StaticSite("Blog", {
             domain: "xvh.lol",
+            build: {
+                command: "pnpm build",
+                output: "dist",
+            },
         });
 
         return { url };
