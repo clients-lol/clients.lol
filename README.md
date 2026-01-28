@@ -12,4 +12,4 @@ pnpm build    # Build for production
 
 ## Deployment
 
-Deployed via SST to Cloudflare Workers: https://xvh.lol
+Deployed via [SST](https://sst.dev) to Cloudflare Workers: https://xvh.lol
