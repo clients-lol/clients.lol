@@ -7,7 +7,7 @@
 declare module "sst" {
   export interface Resource {
     "Blog": {
-      "type": "sst.cloudflare.Astro"
+      "type": "sst.cloudflare.StaticSite"
       "url": string
     }
   }
