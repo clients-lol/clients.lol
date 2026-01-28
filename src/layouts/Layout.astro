@@ -2,22 +2,191 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta
+			name="description"
+			content="Alex Marshall. Backend engineer focused on infrastructure and systems design."
+		/>
+
+		<!-- Open Graph / Twitter -->
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content="https://alexmarshall.dev/" />
+		<meta property="og:title" content="Alex Marshall" />
+		<meta
+			property="og:description"
+			content="Backend engineer focused on infrastructure and systems design."
+		/>
+
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Inter:wght@400;500&display=swap"
+			rel="stylesheet"
+		/>
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
+		<title>Alex Marshall</title>
 	</head>
 	<body>
 		<slot />
 	</body>
 </html>
 
-<style>
-	html,
-	body {
+<style is:global>
+	:root {
+		--text: #1a1a1a;
+		--text-muted: #666;
+		--bg: #fafafa;
+		--accent: #2a2a2a;
+		--border: #e0e0e0;
+	}
+
+	@media (prefers-color-scheme: dark) {
+		:root {
+			--text: #e8e8e8;
+			--text-muted: #999;
+			--bg: #111;
+			--accent: #fff;
+			--border: #333;
+		}
+	}
+
+	* {
 		margin: 0;
-		width: 100%;
-		height: 100%;
+		padding: 0;
+		box-sizing: border-box;
+	}
+
+	body {
+		font-family: "Source Serif 4", Georgia, serif;
+		background: var(--bg);
+		color: var(--text);
+		line-height: 1.7;
+		padding: 2rem;
+		max-width: 680px;
+		margin: 0 auto;
+		min-height: 100vh;
+	}
+
+	header {
+		margin-bottom: 4rem;
+		padding-top: 2rem;
+	}
+
+	h1 {
+		font-size: 2.5rem;
+		font-weight: 600;
+		letter-spacing: -0.02em;
+		margin-bottom: 0.5rem;
+	}
+
+	.subtitle {
+		font-family: "Inter", sans-serif;
+		font-size: 0.9rem;
+		color: var(--text-muted);
+		text-transform: uppercase;
+		letter-spacing: 0.1em;
+	}
+
+	section {
+		margin-bottom: 3rem;
+	}
+
+	h2 {
+		font-size: 1.1rem;
+		font-weight: 600;
+		margin-bottom: 1rem;
+		color: var(--text-muted);
+		font-family: "Inter", sans-serif;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+	}
+
+	p {
+		margin-bottom: 1.5rem;
+		font-size: 1.125rem;
+	}
+
+	a {
+		color: var(--text);
+		text-decoration: underline;
+		text-underline-offset: 3px;
+	}
+
+	a:hover {
+		color: var(--text-muted);
+	}
+
+	blockquote {
+		border-left: 2px solid var(--border);
+		padding-left: 1.5rem;
+		margin: 2rem 0;
+		font-style: italic;
+		color: var(--text-muted);
+	}
+
+	.question {
+		font-size: 1.5rem;
+		font-weight: 600;
+		margin: 3rem 0;
+		line-height: 1.4;
+	}
+
+	hr {
+		border: none;
+		border-top: 1px solid var(--border);
+		margin: 3rem 0;
+	}
+
+	footer {
+		margin-top: 4rem;
+		padding-top: 2rem;
+		border-top: 1px solid var(--border);
+		font-family: "Inter", sans-serif;
+		font-size: 0.85rem;
+		color: var(--text-muted);
+	}
+
+	footer a {
+		color: var(--text-muted);
+	}
+
+	.links {
+		margin-top: 1rem;
+	}
+
+	.links a {
+		display: inline-block;
+		margin-right: 1.5rem;
+		margin-bottom: 0.5rem;
+	}
+
+	.experience {
+		margin-bottom: 1rem;
+	}
+
+	.role {
+		margin-bottom: 2rem;
+	}
+
+	.role h3 {
+		font-size: 1.1rem;
+		font-weight: 600;
+		margin-bottom: 0.25rem;
+		color: var(--text);
+	}
+
+	.company {
+		font-family: 'Inter', sans-serif;
+		font-size: 0.9rem;
+		color: var(--text-muted);
+		margin-bottom: 0.75rem !important;
+	}
+
+	.technologies {
+		font-family: 'Inter', sans-serif;
+		font-size: 0.95rem;
+		line-height: 1.6;
+		color: var(--text-muted);
+		margin-bottom: 1.5rem !important;
 	}
 </style>
