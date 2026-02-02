@@ -67,7 +67,8 @@
     "node_modules/**",
     "*.min.js",
     "*.config.js",
-    "*.config.mjs"
+    "*.config.mjs",
+    ".agents/"
   ],
   "overrides": [
     {
@@ -85,7 +86,9 @@
       "rules": {
         "no-unused-vars": "off",
         "typescript/no-explicit-any": "off",
-        "sort-imports": "off"
+        "sort-imports": "off",
+        "no-ternary": "off",
+        "sort-keys": "off"
       }
     },
     {

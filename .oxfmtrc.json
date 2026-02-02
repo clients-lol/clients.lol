@@ -45,6 +45,7 @@
     "node_modules/**",
     "*.min.js",
     "*.config.js",
-    "public/**"
+    "public/**",
+    ".agents/"
   ]
 }
