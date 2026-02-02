@@ -7,7 +7,6 @@ import remarkGfm from "remark-gfm";
 import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeExternalLinks from "rehype-external-links";
-import rehypeCallouts from "rehype-callouts";
 
 // https://astro.build/config
 export default defineConfig({
@@ -27,16 +26,11 @@ export default defineConfig({
     enabled: false,
   },
 
-  integrations: [
-    mdx({
-      rehypePlugins: [rehypeCallouts],
-    }),
-  ],
+  integrations: [mdx()],
 
   markdown: {
     remarkPlugins: [remarkGfm],
     rehypePlugins: [
-      rehypeCallouts,
       rehypeSlug,
       [rehypeAutolinkHeadings, { behavior: "wrap" }],
       [rehypeExternalLinks, { target: "_blank", rel: ["nofollow", "noopener"] }],

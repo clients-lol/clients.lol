@@ -409,29 +409,6 @@ pre code {
   margin: var(--space-6) 0;
 }
 
-/* Callout / Alert Boxes */
-.callout {
-  padding: var(--space-5);
-  border-radius: var(--radius-md);
-  margin: var(--space-6) 0;
-  border-left: 4px solid;
-}
-
-.callout-info {
-  background-color: var(--stone-200);
-  border-color: var(--stone-400);
-}
-
-.callout-warning {
-  background-color: var(--sand-100);
-  border-color: var(--sand-400);
-}
-
-.callout-tip {
-  background-color: rgba(234, 88, 12, 0.1);
-  border-color: var(--terracotta-500);
-}
-
 /* Article Layout */
 .article-content {
   max-width: 65ch;
@@ -625,85 +602,4 @@ pre code {
   color: var(--color-text-subtle);
   font-size: 0.8em;
   text-decoration: none;
-}
-
-/* ========================================
-   Warm Hand-Crafted Callouts
-   ======================================== */
-
-.callout {
-  margin: var(--space-6) 0;
-  padding: var(--space-6) var(--space-8);
-  border-radius: var(--radius-md);
-  border: none;
-}
-
-.callout-title,
-.callout-icon {
-  display: none;
-}
-
-.callout-content {
-  font-size: var(--text-base);
-  line-height: 1.7;
-  color: var(--color-text);
-}
-
-.callout-content p:first-child {
-  margin-top: 0;
-}
-
-.callout-content p:last-child {
-  margin-bottom: 0;
-}
-
-/* Note - stone-200 at 15% */
-.callout-note,
-.callout[data-callout="note"] {
-  background-color: rgba(231, 229, 228, 0.15);
-}
-
-/* Tip - sand-100 at 15% */
-.callout-tip,
-.callout[data-callout="tip"] {
-  background-color: rgba(254, 243, 199, 0.15);
-}
-
-/* Warning - terracotta-300 at 15% */
-.callout-warning,
-.callout[data-callout="warning"] {
-  background-color: rgba(253, 186, 116, 0.15);
-}
-
-/* Danger - stone-300 at 15% */
-.callout-danger,
-.callout[data-callout="danger"] {
-  background-color: rgba(214, 211, 209, 0.15);
-}
-
-/* Info - stone-100 at 15% */
-.callout-info,
-.callout[data-callout="info"] {
-  background-color: rgba(250, 250, 249, 0.15);
-}
-
-/* Collapsible callouts - hide toggle indicator since title is hidden */
-.callout.is-collapsible .callout-title::after {
-  display: none;
-}
-
-.callout.is-collapsed .callout-content {
-  display: none;
-}
-
-/* Responsive */
-@media (max-width: 640px) {
-  .callout {
-    margin: var(--space-4) 0;
-    padding: var(--space-5) var(--space-6);
-  }
-
-  .callout-content {
-    font-size: var(--text-base);
-  }
 }

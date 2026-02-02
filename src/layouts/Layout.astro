@@ -85,15 +85,17 @@ const formattedDate = pubDate
             <nav class="main-nav" transition:persist>
                 <div class="nav-content">
                     <a href="/" class="nav-logo">Alex Marshall</a>
-                <div class="nav-links">
-                    <a href="/">Home</a>
-                    <a href="/writing">Writing</a>
-                    <a href={`mailto:${"a.marshall@tutamail.com"}`}>Contact</a>
-                </div>
+                    <div class="nav-links">
+                        <a href="/">Home</a>
+                        <a href="/writing">Writing</a>
+                        <a href={`mailto:${"a.marshall@tutamail.com"}`}
+                            >Contact</a
+                        >
+                    </div>
                 </div>
             </nav>
 
-            <main transition:animate="slide">
+            <main transition:animate="morph">
                 <slot />
             </main>
         </div>

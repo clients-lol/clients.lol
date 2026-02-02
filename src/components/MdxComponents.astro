@@ -1,0 +1,24 @@
+---
+// MDX Components - Custom rendering for MDX content
+import type { HTMLAttributes } from "astro/types";
+
+// Callout/Tip box component
+interface CalloutProps extends HTMLAttributes<"div"> {
+    type?: "info" | "warning" | "tip" | "danger";
+    title?: string;
+}
+
+export function Callout({ type = "info", title, children }: CalloutProps) {
+    const className = `callout callout-${type}`;
+    return (
+        <div class={className}>
+            {title && <strong>{title}:</strong>} {children}
+        </div>
+    );
+}
+
+// Export default components object for MDX
+export const components = {
+    // Custom container for :::tip ::: syntax (will be handled by remark/rehype plugins)
+};
+---

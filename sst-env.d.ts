@@ -5,12 +5,7 @@
 /* biome-ignore-all lint: auto-generated */
 
 declare module "sst" {
-  export interface Resource {
-    Blog: {
-      type: "sst.cloudflare.StaticSite";
-      url: string;
-    };
-  }
+  export interface Resource {}
 }
 /// <reference path="sst-env.d.ts" />
 
