@@ -1,60 +1,88 @@
 ---
+import { getCollection } from "astro:content";
 import Layout from "../layouts/Layout.astro";
+import Experiences from "../components/Experiences.astro";
 import Config from "../../config.mjs";
+
+const posts = await getCollection("writing", ({ data }) => import.meta.env.PROD ? !data.draft : true);
+
+const SLICE_START = 0;
+const SLICE_COUNT = 3;
+
+// Sort by date, newest first, take first 3
+const latestPosts = posts
+  .sort((first, second) => second.data.pubDate.valueOf() - first.data.pubDate.valueOf())
+  .slice(SLICE_START, SLICE_COUNT);
 ---
 
-<Layout>
-    <header>
-        <p class="subtitle">Personal Blog</p>
-        <h1>Alex Marshall</h1>
-    </header>
-    <section>
-        <p>
-            Backend engineer focused on infrastructure and systems design.
-            Flexible across teams and independent work.
-        </p>
-    </section>
+<Layout title="Alex Marshall - Backend Engineer">
+  <header class="page-header">
+    <p class="subtitle">Backend Engineer</p>
+    <h1 transition:name="home-title">Alex Marshall</h1>
+    <p class="subtitle">Infrastructure & Systems Design</p>
+  </header>
 
-    <hr />
+  <section>
+    <p>
+      Backend engineer focused on infrastructure and systems design. Flexible
+      across teams and independent work. Building reliable systems with
+      TypeScript, Node.js, and modern cloud infrastructure.
+    </p>
+  </section>
 
-    <section>
-        <h2>Experience</h2>
-        <div class="experience">
-            <div class="role">
-                <h3>DevOps / Backend Engineer</h3>
-                <p class="company">Tritan Internet LLC - 2022 to 2025</p>
-                <p>
-                    Designed and shipped core backend systems that now power
-                    Tritan's billing, security, and intelligence operations.
-                    Engineered solutions spanning APIs, real-time data
-                    processing, and open internet infrastructure using
-                    TypeScript, MongoDB, and Redis.
-                </p>
-            </div>
-        </div>
-    </section>
-</Layout>
+  <hr />
 
-<hr />
+  <Experiences />
 
-<section>
+  <hr />
+
+  <section>
     <h2>Technologies</h2>
     <p class="technologies">
-        TypeScript, Node.js, Express.js, Hono<br />
-        PostgreSQL, MongoDB, Redis<br />
-        AWS, Cloudflare, Docker, SST<br />
-        OAuth2, JWT, WebSockets
+      TypeScript, Node.js, Express.js, Hono<br />
+      PostgreSQL, MongoDB, Redis<br />
+      AWS, Cloudflare, Docker, SST<br />
+      OAuth2, JWT, WebSockets
     </p>
-</section>
+  </section>
 
-<hr />
+  <hr />
 
-<section>
+  <section>
+    <h2>Latest Writing</h2>
+    <ul class="writing-list">
+      {
+        latestPosts.map((post) => (
+          <li>
+            <a href={`/writing/${post.id.replace(/\.mdx?$/, "")}`}>
+              <h3>{post.data.title}</h3>
+              <p class="excerpt">{post.data.description}</p>
+              <span class="date">
+                {post.data.pubDate.toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <p style="margin-top: var(--space-6);">
+      <a href="/writing">View all writing →</a>
+    </p>
+  </section>
+
+  <hr />
+
+  <section>
     <h2>Get in touch</h2>
     <p>Feel free to reach out:</p>
     <div class="links">
-        <a href={`mailto:${Config.email}`}>Email</a>
-        <a href={Config.github}>GitHub</a>
-        <a href="/pgp.txt">PGP Key</a>
+      <a href={`mailto:${Config.email}`}>Email</a>
+      <a href={Config.github}>GitHub</a>
+      <a href="/pgp.txt">PGP Key</a>
     </div>
-</section>
+  </section>
+</Layout>
