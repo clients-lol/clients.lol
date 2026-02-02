@@ -36,6 +36,12 @@
         "proseWrap": "always",
         "printWidth": 80
       }
+    },
+    {
+      "files": ["sst.config.ts"],
+      "options": {
+        "parser": "typescript"
+      }
     }
   ],
   "ignorePatterns": [
@@ -44,7 +50,6 @@
     ".astro/**",
     "node_modules/**",
     "*.min.js",
-    "*.config.js",
     "public/**",
     ".agents/"
   ]
