@@ -657,34 +657,34 @@ pre code {
   margin-bottom: 0;
 }
 
-/* Note - stone-200 at 8% */
+/* Note - stone-200 at 15% */
 .callout-note,
 .callout[data-callout="note"] {
-  background-color: rgba(231, 229, 228, 0.08);
+  background-color: rgba(231, 229, 228, 0.15);
 }
 
-/* Tip - sand-100 at 8% */
+/* Tip - sand-100 at 15% */
 .callout-tip,
 .callout[data-callout="tip"] {
-  background-color: rgba(245, 245, 244, 0.08);
+  background-color: rgba(254, 243, 199, 0.15);
 }
 
-/* Warning - terracotta-300 at 8% */
+/* Warning - terracotta-300 at 15% */
 .callout-warning,
 .callout[data-callout="warning"] {
-  background-color: rgba(222, 184, 169, 0.08);
+  background-color: rgba(253, 186, 116, 0.15);
 }
 
-/* Danger - stone-300 at 8% */
+/* Danger - stone-300 at 15% */
 .callout-danger,
 .callout[data-callout="danger"] {
-  background-color: rgba(214, 211, 209, 0.08);
+  background-color: rgba(214, 211, 209, 0.15);
 }
 
-/* Info - stone-100 at 8% */
+/* Info - stone-100 at 15% */
 .callout-info,
 .callout[data-callout="info"] {
-  background-color: rgba(245, 245, 244, 0.08);
+  background-color: rgba(250, 250, 249, 0.15);
 }
 
 /* Collapsible callouts - hide toggle indicator since title is hidden */
