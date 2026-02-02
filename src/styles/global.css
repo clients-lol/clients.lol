@@ -628,40 +628,31 @@ pre code {
 }
 
 /* ========================================
-   Obsidian Theme Callouts (rehype-callouts)
-   Adapted for Warm Minimalist Design
+   GitHub-Style Callouts (rehype-callouts)
+   Minimal Warm Minimalist Design
    ======================================== */
 
-/* Base callout structure */
+/* Base callout - simple left border, no background */
 .callout {
-  --callout-color: var(--stone-500);
-  --callout-bg: var(--stone-100);
-  --callout-border: var(--stone-400);
-  
-  background-color: var(--callout-bg);
-  border: 1px solid var(--callout-border);
-  border-left-width: 4px;
-  border-radius: var(--radius-md);
+  border-left: 4px solid var(--stone-400);
   margin: var(--space-6) 0;
-  overflow: hidden;
+  padding: var(--space-3) 0;
 }
 
-/* Callout title styling */
+/* Callout title - minimal styling */
 .callout-title {
   display: flex;
   align-items: center;
   gap: var(--space-3);
-  padding: var(--space-3) var(--space-4);
+  padding: 0 var(--space-4) var(--space-2) var(--space-4);
   font-weight: 600;
   font-size: var(--text-sm);
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  background-color: rgba(var(--callout-color), 0.08);
-  border-bottom: 1px solid rgba(var(--callout-color), 0.2);
   color: var(--stone-700);
 }
 
-/* Callout icon styling */
+/* Callout icon */
 .callout-icon {
   display: flex;
   align-items: center;
@@ -677,205 +668,77 @@ pre code {
   fill: currentColor;
 }
 
-/* Callout content styling */
+/* Callout content */
 .callout-content {
-  padding: var(--space-4) var(--space-5);
+  padding: var(--space-2) var(--space-4);
   font-size: var(--text-base);
   line-height: 1.7;
   color: var(--color-text);
-}
-
-.callout-content p:last-child {
-  margin-bottom: 0;
 }
 
 .callout-content p:first-child {
   margin-top: 0;
 }
 
-/* ========== Callout Types with Warm Obsidian Colors ========== */
+.callout-content p:last-child {
+  margin-bottom: 0;
+}
 
-/* Note - Warm Blue-Grey */
+/* ========== Callout Types ========== */
+
+/* Note - Blue-grey */
 .callout-note,
 .callout[data-callout="note"] {
-  --callout-color: 120, 113, 108;
-  --callout-bg: #f8f7f6;
-  --callout-border: #a8a29e;
+  border-left-color: var(--stone-400);
 }
 
 .callout-note .callout-title,
 .callout[data-callout="note"] .callout-title {
-  background-color: rgba(120, 113, 108, 0.1);
-  border-bottom-color: rgba(120, 113, 108, 0.25);
-  color: #57534e;
+  color: var(--stone-700);
 }
 
-/* Tip - Terracotta/Orange (Warm accent) */
+/* Tip - Terracotta/Orange */
 .callout-tip,
 .callout[data-callout="tip"] {
-  --callout-color: 234, 88, 12;
-  --callout-bg: #fff7ed;
-  --callout-border: #fb923c;
+  border-left-color: var(--terracotta-500);
 }
 
 .callout-tip .callout-title,
 .callout[data-callout="tip"] .callout-title {
-  background-color: rgba(234, 88, 12, 0.1);
-  border-bottom-color: rgba(234, 88, 12, 0.25);
-  color: #c2410c;
+  color: var(--terracotta-700);
 }
 
-/* Warning - Warm Sand/Amber */
+/* Warning - Amber */
 .callout-warning,
 .callout[data-callout="warning"] {
-  --callout-color: 217, 119, 6;
-  --callout-bg: #fffbeb;
-  --callout-border: #fbbf24;
+  border-left-color: #d97706;
 }
 
 .callout-warning .callout-title,
 .callout[data-callout="warning"] .callout-title {
-  background-color: rgba(217, 119, 6, 0.1);
-  border-bottom-color: rgba(217, 119, 6, 0.25);
   color: #b45309;
 }
 
-/* Danger - Warm Red/Rose */
+/* Danger - Red */
 .callout-danger,
 .callout[data-callout="danger"] {
-  --callout-color: 220, 38, 38;
-  --callout-bg: #fef2f2;
-  --callout-border: #f87171;
+  border-left-color: #dc2626;
 }
 
 .callout-danger .callout-title,
 .callout[data-callout="danger"] .callout-title {
-  background-color: rgba(220, 38, 38, 0.1);
-  border-bottom-color: rgba(220, 38, 38, 0.25);
   color: #b91c1c;
 }
 
-/* Info - Warm Purple/Indigo (Obsidian aesthetic) */
+/* Info - Indigo */
 .callout-info,
 .callout[data-callout="info"] {
-  --callout-color: 99, 102, 241;
-  --callout-bg: #eef2ff;
-  --callout-border: #818cf8;
+  border-left-color: #6366f1;
 }
 
 .callout-info .callout-title,
 .callout[data-callout="info"] .callout-title {
-  background-color: rgba(99, 102, 241, 0.1);
-  border-bottom-color: rgba(99, 102, 241, 0.25);
   color: #4f46e5;
-}
-
-/* Additional Obsidian-style callout types */
-
-/* Abstract/Summary - Warm Teal */
-.callout-abstract,
-.callout-summary,
-.callout[data-callout="abstract"],
-.callout[data-callout="summary"] {
-  --callout-color: 13, 148, 136;
-  --callout-bg: #f0fdfa;
-  --callout-border: #5eead4;
-}
-
-.callout-abstract .callout-title,
-.callout-summary .callout-title,
-.callout[data-callout="abstract"] .callout-title,
-.callout[data-callout="summary"] .callout-title {
-  background-color: rgba(13, 148, 136, 0.1);
-  border-bottom-color: rgba(13, 148, 136, 0.25);
-  color: #0f766e;
-}
-
-/* Success/Check - Warm Green */
-.callout-success,
-.callout-check,
-.callout[data-callout="success"],
-.callout[data-callout="check"] {
-  --callout-color: 22, 163, 74;
-  --callout-bg: #f0fdf4;
-  --callout-border: #4ade80;
-}
-
-.callout-success .callout-title,
-.callout-check .callout-title,
-.callout[data-callout="success"] .callout-title,
-.callout[data-callout="check"] .callout-title {
-  background-color: rgba(22, 163, 74, 0.1);
-  border-bottom-color: rgba(22, 163, 74, 0.25);
-  color: #15803d;
-}
-
-/* Question/Help - Warm Yellow */
-.callout-question,
-.callout-help,
-.callout[data-callout="question"],
-.callout[data-callout="help"] {
-  --callout-color: 202, 138, 4;
-  --callout-bg: #fefce8;
-  --callout-border: #facc15;
-}
-
-.callout-question .callout-title,
-.callout-help .callout-title,
-.callout[data-callout="question"] .callout-title,
-.callout[data-callout="help"] .callout-title {
-  background-color: rgba(202, 138, 4, 0.1);
-  border-bottom-color: rgba(202, 138, 4, 0.25);
-  color: #a16207;
-}
-
-/* Quote/Cite - Muted Stone */
-.callout-quote,
-.callout-cite,
-.callout[data-callout="quote"],
-.callout[data-callout="cite"] {
-  --callout-color: 168, 162, 158;
-  --callout-bg: #fafaf9;
-  --callout-border: #d6d3d1;
-}
-
-.callout-quote .callout-title,
-.callout-cite .callout-title,
-.callout[data-callout="quote"] .callout-title,
-.callout[data-callout="cite"] .callout-title {
-  background-color: rgba(168, 162, 158, 0.1);
-  border-bottom-color: rgba(168, 162, 158, 0.25);
-  color: #78716c;
-}
-
-/* Example - Warm Purple */
-.callout-example,
-.callout[data-callout="example"] {
-  --callout-color: 147, 51, 234;
-  --callout-bg: #faf5ff;
-  --callout-border: #c084fc;
-}
-
-.callout-example .callout-title,
-.callout[data-callout="example"] .callout-title {
-  background-color: rgba(147, 51, 234, 0.1);
-  border-bottom-color: rgba(147, 51, 234, 0.25);
-  color: #7c3aed;
-}
-
-/* Important - Deep Terracotta */
-.callout-important,
-.callout[data-callout="important"] {
-  --callout-color: 194, 65, 12;
-  --callout-bg: #fff1e6;
-  --callout-border: #ea580c;
-}
-
-.callout-important .callout-title,
-.callout[data-callout="important"] .callout-title {
-  background-color: rgba(194, 65, 12, 0.1);
-  border-bottom-color: rgba(194, 65, 12, 0.25);
-  color: #9a3412;
 }
 
 /* ========== Collapsible Callouts ========== */
@@ -903,26 +766,22 @@ pre code {
   display: none;
 }
 
-/* ========== Nested Callouts ========== */
-.callout .callout {
-  margin: var(--space-4) 0;
-}
-
-/* ========== Responsive Adjustments ========== */
+/* ========== Responsive ========== */
 @media (max-width: 640px) {
   .callout {
     margin: var(--space-4) 0;
+    padding: var(--space-2) 0;
   }
-  
+
   .callout-title {
-    padding: var(--space-2) var(--space-3);
+    padding: 0 var(--space-3) var(--space-1) var(--space-3);
     font-size: var(--text-xs);
   }
-  
+
   .callout-content {
-    padding: var(--space-3) var(--space-4);
+    padding: var(--space-1) var(--space-3);
   }
-  
+
   .callout-icon {
     width: 16px;
     height: 16px;
