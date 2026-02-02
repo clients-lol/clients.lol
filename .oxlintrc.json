@@ -1,0 +1,112 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["typescript", "jsx-a11y"],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "error",
+    "pedantic": "warn",
+    "perf": "warn",
+    "style": "warn",
+    "restriction": "warn",
+    "nursery": "allow"
+  },
+  "rules": {
+    "typescript/no-explicit-any": "warn",
+    "no-console": "warn",
+    "no-debugger": "error",
+    "no-alert": "error",
+    "prefer-const": "error",
+    "no-var": "error",
+    "no-unused-vars": "error",
+    "no-duplicate-imports": "error",
+    "eqeqeq": "error",
+    "curly": "error",
+    "no-trailing-spaces": "error",
+    "no-multiple-empty-lines": "warn",
+    "eol-last": "error",
+    "comma-dangle": ["error", "always-multiline"],
+    "quotes": ["error", "double"],
+    "semi": ["error", "always"],
+    "indent": ["error", 2],
+    "object-curly-spacing": ["error", "always"],
+    "array-bracket-spacing": ["error", "never"],
+    "space-before-function-paren": ["error", "never"],
+    "keyword-spacing": "error",
+    "space-infix-ops": "error",
+    "no-spaced-func": "error",
+    "brace-style": ["error", "1tbs"],
+    "max-len": ["warn", { "code": 100, "ignoreUrls": true }],
+    "typescript/prefer-readonly": "warn",
+    "typescript/no-unnecessary-type-assertion": "error",
+    "typescript/no-non-null-assertion": "warn",
+    "typescript/prefer-as-const": "error",
+    "typescript/prefer-includes": "error",
+    "typescript/prefer-string-starts-ends-with": "error",
+    "jsx-a11y/alt-text": "error",
+    "jsx-a11y/anchor-has-content": "error",
+    "jsx-a11y/anchor-is-valid": "warn"
+  },
+  "env": {
+    "builtin": true,
+    "es2022": true,
+    "node": true,
+    "browser": true,
+    "webworker": true
+  },
+  "globals": {
+    "Env": "readonly",
+    "Astro": "readonly",
+    "fetch": "readonly",
+    "Request": "readonly",
+    "Response": "readonly"
+  },
+  "ignorePatterns": [
+    "dist/**",
+    ".sst/**",
+    ".astro/**",
+    "node_modules/**",
+    "*.min.js",
+    "*.config.js",
+    "*.config.mjs"
+  ],
+  "overrides": [
+    {
+      "files": ["sst.config.ts"],
+      "rules": {
+        "typescript/triple-slash-reference": "off",
+        "no-console": "off",
+        "no-ternary": "off",
+        "sort-keys": "off",
+        "require-await": "off"
+      }
+    },
+    {
+      "files": ["*.astro"],
+      "rules": {
+        "no-unused-vars": "off",
+        "typescript/no-explicit-any": "off",
+        "sort-imports": "off"
+      }
+    },
+    {
+      "files": ["src/**/*.astro", "src/**/*.ts", "src/**/*.js"],
+      "rules": {
+        "no-console": "error"
+      }
+    },
+    {
+      "files": ["*.config.*", "*.mjs"],
+      "rules": {
+        "no-console": "off",
+        "sort-keys": "off"
+      }
+    },
+    {
+      "files": ["sst-env.d.ts"],
+      "rules": {
+        "capitalized-comments": "off",
+        "ban-tslint-comment": "off"
+      }
+    }
+  ]
+}

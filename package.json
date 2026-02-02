@@ -1,17 +1,23 @@
 {
   "name": "me",
-  "type": "module",
   "version": "0.0.1",
+  "type": "module",
   "scripts": {
     "astro": "astro",
     "build": "astro build",
     "dev": "astro dev",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix && oxfmt"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^12.6.12",
     "astro": "^5.16.15",
     "astro-sst": "3.1.4",
     "sst": "3.17.38"
+  },
+  "devDependencies": {
+    "oxfmt": "^0.27.0",
+    "oxlint": "^1.42.0"
   }
 }
