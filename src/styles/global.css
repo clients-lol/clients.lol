@@ -628,49 +628,22 @@ pre code {
 }
 
 /* ========================================
-   GitHub-Style Callouts (rehype-callouts)
-   Minimal Warm Minimalist Design
+   Warm Hand-Crafted Callouts
    ======================================== */
 
-/* Base callout - simple left border, no background */
 .callout {
-  border-left: 4px solid var(--stone-400);
   margin: var(--space-6) 0;
-  padding: var(--space-3) 0;
+  padding: var(--space-6) var(--space-8);
+  border-radius: var(--radius-md);
+  border: none;
 }
 
-/* Callout title - minimal styling */
-.callout-title {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  padding: 0 var(--space-4) var(--space-2) var(--space-4);
-  font-weight: 600;
-  font-size: var(--text-sm);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--stone-700);
-}
-
-/* Callout icon */
+.callout-title,
 .callout-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 20px;
-  height: 20px;
-  flex-shrink: 0;
+  display: none;
 }
 
-.callout-icon svg {
-  width: 100%;
-  height: 100%;
-  fill: currentColor;
-}
-
-/* Callout content */
 .callout-content {
-  padding: var(--space-2) var(--space-4);
   font-size: var(--text-base);
   line-height: 1.7;
   color: var(--color-text);
@@ -684,106 +657,53 @@ pre code {
   margin-bottom: 0;
 }
 
-/* ========== Callout Types ========== */
-
-/* Note - Blue-grey */
+/* Note - stone-200 at 8% */
 .callout-note,
 .callout[data-callout="note"] {
-  border-left-color: var(--stone-400);
+  background-color: rgba(231, 229, 228, 0.08);
 }
 
-.callout-note .callout-title,
-.callout[data-callout="note"] .callout-title {
-  color: var(--stone-700);
-}
-
-/* Tip - Terracotta/Orange */
+/* Tip - sand-100 at 8% */
 .callout-tip,
 .callout[data-callout="tip"] {
-  border-left-color: var(--terracotta-500);
+  background-color: rgba(245, 245, 244, 0.08);
 }
 
-.callout-tip .callout-title,
-.callout[data-callout="tip"] .callout-title {
-  color: var(--terracotta-700);
-}
-
-/* Warning - Amber */
+/* Warning - terracotta-300 at 8% */
 .callout-warning,
 .callout[data-callout="warning"] {
-  border-left-color: #d97706;
+  background-color: rgba(222, 184, 169, 0.08);
 }
 
-.callout-warning .callout-title,
-.callout[data-callout="warning"] .callout-title {
-  color: #b45309;
-}
-
-/* Danger - Red */
+/* Danger - stone-300 at 8% */
 .callout-danger,
 .callout[data-callout="danger"] {
-  border-left-color: #dc2626;
+  background-color: rgba(214, 211, 209, 0.08);
 }
 
-.callout-danger .callout-title,
-.callout[data-callout="danger"] .callout-title {
-  color: #b91c1c;
-}
-
-/* Info - Indigo */
+/* Info - stone-100 at 8% */
 .callout-info,
 .callout[data-callout="info"] {
-  border-left-color: #6366f1;
+  background-color: rgba(245, 245, 244, 0.08);
 }
 
-.callout-info .callout-title,
-.callout[data-callout="info"] .callout-title {
-  color: #4f46e5;
-}
-
-/* ========== Collapsible Callouts ========== */
-.callout.is-collapsible .callout-title {
-  cursor: pointer;
-}
-
+/* Collapsible callouts - hide toggle indicator since title is hidden */
 .callout.is-collapsible .callout-title::after {
-  content: "";
-  display: inline-block;
-  width: 0;
-  height: 0;
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-top: 5px solid currentColor;
-  margin-left: auto;
-  transition: transform 0.2s ease;
-}
-
-.callout.is-collapsed .callout-title::after {
-  transform: rotate(-90deg);
+  display: none;
 }
 
 .callout.is-collapsed .callout-content {
   display: none;
 }
 
-/* ========== Responsive ========== */
+/* Responsive */
 @media (max-width: 640px) {
   .callout {
     margin: var(--space-4) 0;
-    padding: var(--space-2) 0;
-  }
-
-  .callout-title {
-    padding: 0 var(--space-3) var(--space-1) var(--space-3);
-    font-size: var(--text-xs);
+    padding: var(--space-5) var(--space-6);
   }
 
   .callout-content {
-    padding: var(--space-1) var(--space-3);
-  }
-
-  .callout-icon {
-    width: 16px;
-    height: 16px;
+    font-size: var(--text-base);
   }
 }
