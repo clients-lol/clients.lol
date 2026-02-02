@@ -1,0 +1,71 @@
+---
+import { getCollection, render } from "astro:content";
+
+const experiences = await getCollection("experiences");
+const sortedExperiences = experiences.sort((first, second) => {
+  if (first.data.order !== second.data.order) {
+    return first.data.order - second.data.order;
+  }
+  return second.data.startDate.valueOf() - first.data.startDate.valueOf();
+});
+
+const experiencesWithContent = await Promise.all(
+  sortedExperiences.map(async (exp) => {
+    const { Content } = await render(exp);
+    const startYear = exp.data.startDate.getFullYear();
+    const endYear = exp.data.endDate
+      ? exp.data.endDate.getFullYear()
+      : "Present";
+    const dateRange =
+      startYear === endYear ? startYear : `${startYear} to ${endYear}`;
+    return { ...exp, Content, dateRange };
+  })
+);
+---
+
+<section>
+  <h2>Experience</h2>
+  <div class="experience">
+    {
+      experiencesWithContent.map((exp) => (
+        <div class="role">
+          <h3>{exp.data.role}</h3>
+          <p class="company">
+            {exp.data.companyUrl ? (
+              <a
+                href={exp.data.companyUrl}
+                target="_blank"
+                rel="nofollow noopener"
+              >
+                {exp.data.company}
+              </a>
+            ) : (
+              exp.data.company
+            )}
+            {exp.data.location && ` · ${exp.data.location}`} — {exp.dateRange}
+          </p>
+          <div class="role-content">
+            <exp.Content />
+          </div>
+          {exp.data.technologies.length > 0 && (
+            <p class="technologies">{exp.data.technologies.join(" · ")}</p>
+          )}
+        </div>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .role-content :global(p:first-child) {
+    margin-top: 0;
+  }
+
+  .role-content :global(ul) {
+    margin-bottom: var(--space-4);
+  }
+
+  .role-content :global(li) {
+    margin-bottom: var(--space-2);
+  }
+</style>
