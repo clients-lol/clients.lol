@@ -69,4 +69,4 @@ The submit page includes CAPTCHA verification using [Cap.js](https://capjs.js.or
 
 ## License
 
-[Add your license here]
+[Apache License 2.0](LICENSE) - See LICENSE file for details.
