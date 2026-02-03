@@ -1,6 +1,9 @@
 ---
 name: "Hexedware"
-description: "Hexedware offers a high-performance C++ client and VRChat Loader for Windows. Choose between their internal solution or VRChat Loader with flexible time-based pricing."
+description:
+  "Hexedware offers a high-performance C++ client and VRChat Loader for Windows.
+  Choose between their internal solution or VRChat Loader with flexible
+  time-based pricing."
 os: "Windows"
 type: "Standalone"
 status: "Active"
@@ -40,4 +43,7 @@ website: "https://hexed.cc"
 discord: "https://discord.gg/W84FEcJPhk"
 ---
 
-Hexedware runs on Windows with two pricing options: their internal C++ client and VRChat Loader. The internal solution ranges from $16/day to $59/month, while the Loader is more affordable at $6/day to $24/month. Both include VR support, crash utilities, ESP, flight, and player controls.
+Hexedware runs on Windows with two pricing options: their internal C++ client
+and VRChat Loader. The internal solution ranges from $16/day to $59/month, while
+the Loader is more affordable at $6/day to $24/month. Both include VR support,
+crash utilities, ESP, flight, and player controls.

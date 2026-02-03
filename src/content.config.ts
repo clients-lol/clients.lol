@@ -10,13 +10,15 @@ const clients = defineCollection({
     status: z.enum(["Active", "Inactive", "Discontinued", "Unknown"]),
     lastUpdated: z.coerce.date().optional(),
     staffQuality: z.enum(["Excellent", "Good", "Average", "Poor", "Unknown"]),
-    pricing: z.array(
-      z.object({
-        plan: z.string(),
-        price: z.string(),
-        period: z.string().optional(),
-      })
-    ).default([]),
+    pricing: z
+      .array(
+        z.object({
+          plan: z.string(),
+          price: z.string(),
+          period: z.string().optional(),
+        }),
+      )
+      .default([]),
     owner: z.object({
       name: z.string(),
       avatar: z.string().optional(),

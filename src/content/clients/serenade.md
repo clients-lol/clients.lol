@@ -1,6 +1,8 @@
 ---
 name: "Serenade"
-description: "Serenade is an Abyss Loader for Windows and Linux with 50+ features. It has VR menu, quest crasher, flight, player controls, and protection systems."
+description:
+  "Serenade is an Abyss Loader for Windows and Linux with 50+ features. It has
+  VR menu, quest crasher, flight, player controls, and protection systems."
 os: "Windows & Linux"
 type: "Abyss Loader"
 status: "Active"
@@ -30,4 +32,6 @@ website: "https://vrc.serenade.rip"
 discord: "https://discord.gg/quRuV7MDjE"
 ---
 
-Serenade runs on Windows and Linux as an Abyss Loader. It has over 50 features including VR menu, quest crashers, flight, player controls, and protection. Pricing ranges from $10 monthly to $25 lifetime.
+Serenade runs on Windows and Linux as an Abyss Loader. It has over 50 features
+including VR menu, quest crashers, flight, player controls, and protection.
+Pricing ranges from $10 monthly to $25 lifetime.

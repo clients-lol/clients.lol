@@ -1,6 +1,8 @@
 ---
 name: "Hollow"
-description: "Hollow is a Windows standalone client with 30+ features including flight, ESP, protection systems, and Udon/Photon support."
+description:
+  "Hollow is a Windows standalone client with 30+ features including flight,
+  ESP, protection systems, and Udon/Photon support."
 os: "Windows"
 type: "Standalone"
 status: "Active"
@@ -28,4 +30,6 @@ website: "https://hollow.enterprises"
 discord: "https://discord.gg/hvrc"
 ---
 
-Hollow runs on Windows and includes Udon and Photon support. It has over 30 features with flight, ESP, and protection systems. Monthly access costs $15, lifetime is $70.
+Hollow runs on Windows and includes Udon and Photon support. It has over 30
+features with flight, ESP, and protection systems. Monthly access costs $15,
+lifetime is $70.

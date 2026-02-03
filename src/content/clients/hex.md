@@ -1,6 +1,8 @@
 ---
 name: "Hex"
-description: "Hex was an early EAC bypass client for Windows. It includes flight, ESP, Discord overlay, and world utilities."
+description:
+  "Hex was an early EAC bypass client for Windows. It includes flight, ESP,
+  Discord overlay, and world utilities."
 os: "Windows"
 type: "Standalone"
 status: "Active"
@@ -24,4 +26,6 @@ website: "https://hexclient.com"
 discord: "https://discord.gg/hex"
 ---
 
-Hex is a Windows client with EAC bypass. It has 100+ features including flight, ESP systems, world utilities, and Discord integration. Subscriptions cost $15 per month.
+Hex is a Windows client with EAC bypass. It has 100+ features including flight,
+ESP systems, world utilities, and Discord integration. Subscriptions cost $15
+per month.

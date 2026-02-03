@@ -2,7 +2,7 @@ name: Deploy
 
 on:
   push:
-    branches: [main, redesign, cold]
+    branches: [master]
   pull_request:
     types: [opened, synchronize, reopened, closed]
 
@@ -39,8 +39,8 @@ jobs:
       - name: Determine stage
         id: stage
         run: |
-          if [ "${{ github.ref_name }}" = "main" ] || [ "${{ github.ref_name }}" = "cold" ]; then
-            echo "stage=production" >> $GITHUB_OUTPUT
+          if [ "${{ github.ref_name }}" = "master" ]; then
+            echo "stage=master" >> $GITHUB_OUTPUT
             echo "is_production=true" >> $GITHUB_OUTPUT
           elif [ "${{ github.event_name }}" = "pull_request" ]; then
             echo "stage=pr-${{ github.event.pull_request.number }}" >> $GITHUB_OUTPUT
@@ -62,12 +62,12 @@ jobs:
         run: |
           # Try to get URL from SST state
           URL=$(pnpm sst state --stage ${{ steps.stage.outputs.stage }} 2>/dev/null | grep -oP 'https://[^\s]+' | head -1 || echo "")
-          
+
           # Fallback for production
           if [ -z "$URL" ] && [ "${{ steps.stage.outputs.is_production }}" = "true" ]; then
             URL="https://clients.lol"
           fi
-          
+
           echo "url=$URL" >> $GITHUB_OUTPUT
           echo "Deployed to: $URL"
 
