@@ -1,0 +1,379 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Config from "../../config.mjs";
+---
+
+<Layout title="Submit - clients.lol">
+    <div class="back-link">
+        <a href="/">← Back</a>
+    </div>
+
+    <h1>Submit a Client</h1>
+
+    <form id="submission-form" class="form-grid">
+        <div class="form-group">
+            <label for="client-name"
+                >Client Name <span class="required">*</span></label
+            >
+            <input
+                type="text"
+                id="client-name"
+                placeholder="MyClient"
+                required
+            />
+        </div>
+
+        <div class="form-group">
+            <label for="developer">Developer / Owner</label>
+            <input type="text" id="developer" placeholder="Jason" />
+        </div>
+
+        <div class="form-group">
+            <label for="website">Website</label>
+            <input
+                type="text"
+                id="website"
+                placeholder="e.g., https://myclient.com"
+            />
+        </div>
+
+        <div class="form-group">
+            <label for="discord">Discord</label>
+            <input
+                type="text"
+                id="discord"
+                placeholder="e.g., https://discord.gg/myclient"
+            />
+        </div>
+
+        <div class="form-group">
+            <label for="os">Operating System</label>
+            <select id="os">
+                <option value="">Select...</option>
+                <option value="Windows">Windows</option>
+                <option value="Linux">Linux</option>
+                <option value="Windows & Linux">Windows & Linux</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="type">Client Type</label>
+            <select id="type">
+                <option value="">Select...</option>
+                <option value="Standalone">Standalone</option>
+                <option value="BepInEx">BepInEx</option>
+                <option value="MelonLoader">MelonLoader</option>
+                <option value="Abyss Loader">Abyss Loader</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="status">Status</label>
+            <select id="status">
+                <option value="">Select...</option>
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+                <option value="Discontinued">Discontinued</option>
+                <option value="Unknown">Unknown</option>
+            </select>
+        </div>
+
+        <div class="form-group full-width">
+            <label for="pricing">Pricing Plans (one per line)</label>
+            <textarea
+                id="pricing"
+                rows="3"
+                placeholder="Monthly: $10/month
+Lifetime: $25/one-time
+Free"
+            ></textarea>
+        </div>
+
+        <div class="form-group full-width">
+            <label for="description"
+                >Description <span class="required">*</span></label
+            >
+            <textarea
+                id="description"
+                rows="3"
+                placeholder="Describe the client in 1-2 sentences. Focus on what it does and who it's for."
+                required></textarea>
+        </div>
+
+        <div class="form-group full-width">
+            <label for="features"
+                >Features (one per line) <span class="required">*</span></label
+            >
+            <textarea
+                id="features"
+                rows="5"
+                placeholder="Flight & Movement
+ESP Systems
+Player Controls
+World Utilities
+And More..."
+                required></textarea>
+        </div>
+
+        <div class="form-group full-width">
+            <label>Verification</label>
+            <cap-widget
+                id="cap"
+                data-cap-api-endpoint={`${Config.capUrl}/${Config.capId}`}
+                data-cap-hidden-field-name="cap-token"
+                data-cap-i18n-initial-state="I'm not a robot"
+                data-cap-i18n-verifying-label="Verifying..."
+                data-cap-i18n-solved-label="Verified"
+                style="--cap-background: var(--color-bg-elevated); --cap-border-color: var(--color-border); --cap-color: var(--color-text);"
+            ></cap-widget>
+        </div>
+
+        <div class="form-group full-width">
+            <button type="submit" id="submit-btn" class="submit-btn">
+                Submit Client
+            </button>
+        </div>
+    </form>
+
+    <div id="success-message" class="success-message" style="display: none;">
+        <h2>Submission Received</h2>
+        <p>
+            Thank you! Your client submission has been received and will be
+            reviewed.
+        </p>
+        <a href="/" class="back-home">← Back to Clients</a>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@cap.js/widget"></script>
+    <script>
+        const form = document.getElementById("submission-form");
+        const submitBtn = document.getElementById("submit-btn");
+        const successMessage = document.getElementById("success-message");
+
+        const API_ENDPOINT = "/api/submit";
+        let capToken = null;
+
+        // Listen for CAPTCHA solve event
+        const capWidget = document.getElementById("cap");
+        capWidget?.addEventListener("solve", function (e) {
+            capToken = e.detail.token;
+        });
+
+        form?.addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = "Submitting...";
+
+            // Parse pricing text into array
+            const pricingText = document.getElementById("pricing").value;
+            const pricing = pricingText
+                ? pricingText
+                      .split("\n")
+                      .filter((line) => line.trim())
+                      .map((line) => {
+                          const match = line.match(
+                              /^(.+?):\s*\$?([^/]+)(?:\/(.+))?$/i,
+                          );
+                          if (match) {
+                              return {
+                                  plan: match[1].trim(),
+                                  price: "$" + match[2].trim(),
+                                  period: match[3]
+                                      ? match[3].trim()
+                                      : undefined,
+                              };
+                          }
+                          return { plan: line, price: line };
+                      })
+                : [];
+
+            if (!capToken) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = "Submit Client";
+
+                const errorDiv = document.createElement("div");
+                errorDiv.className = "error-message";
+                errorDiv.textContent = "Please complete the verification.";
+                form.insertBefore(errorDiv, submitBtn.parentElement);
+
+                setTimeout(() => {
+                    errorDiv.remove();
+                }, 5000);
+                return;
+            }
+
+            const formData = {
+                clientName: document.getElementById("client-name").value,
+                developer: document.getElementById("developer").value,
+                website: document.getElementById("website").value,
+                discord: document.getElementById("discord").value,
+                os: document.getElementById("os").value,
+                type: document.getElementById("type").value,
+                status: document.getElementById("status").value,
+                pricing: pricing,
+                description: document.getElementById("description").value,
+                features: document.getElementById("features").value,
+                capToken: capToken,
+            };
+
+            try {
+                const response = await fetch(API_ENDPOINT, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(formData),
+                });
+
+                if (response.ok) {
+                    // Hide form, show success
+                    form.style.display = "none";
+                    successMessage.style.display = "block";
+                } else {
+                    throw new Error("Submission failed");
+                }
+            } catch {
+                // Reset button on error
+                submitBtn.disabled = false;
+                submitBtn.textContent = "Submit Client";
+
+                // Show error message
+                const errorDiv = document.createElement("div");
+                errorDiv.className = "error-message";
+                errorDiv.textContent =
+                    "Failed to submit. Please try again later.";
+                form.insertBefore(errorDiv, submitBtn.parentElement);
+
+                // Remove error after 5 seconds
+                setTimeout(() => {
+                    errorDiv.remove();
+                }, 5000);
+            }
+        });
+    </script>
+</Layout>
+
+<style>
+    .back-link {
+        margin-bottom: var(--space-6);
+    }
+
+    .back-link a {
+        font-size: var(--text-sm);
+        text-decoration: none;
+    }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-4);
+    }
+
+    @media (max-width: 640px) {
+        .form-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-2);
+    }
+
+    .form-group.full-width {
+        grid-column: 1 / -1;
+    }
+
+    .form-group label {
+        font-size: var(--text-sm);
+        font-weight: 500;
+        color: var(--color-text);
+    }
+
+    .required {
+        color: #dc2626;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        padding: var(--space-3);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-md);
+        background-color: var(--color-bg-elevated);
+        font-size: var(--text-base);
+        font-family: inherit;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+        outline: 2px solid var(--color-accent);
+        outline-offset: 2px;
+    }
+
+    .submit-btn {
+        padding: var(--space-4) var(--space-6);
+        background-color: var(--color-accent);
+        color: white;
+        border: none;
+        border-radius: var(--radius-md);
+        font-size: var(--text-base);
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color var(--transition-fast);
+        margin-top: var(--space-4);
+    }
+
+    .submit-btn:hover:not(:disabled) {
+        background-color: var(--color-accent-hover);
+    }
+
+    .submit-btn:disabled {
+        background-color: var(--stone-400);
+        cursor: not-allowed;
+    }
+
+    .success-message {
+        text-align: center;
+        padding: var(--space-12) 0;
+    }
+
+    .success-message h2 {
+        margin-bottom: var(--space-4);
+    }
+
+    .success-message p {
+        color: var(--color-text-muted);
+        margin-bottom: var(--space-8);
+    }
+
+    .back-home {
+        font-size: var(--text-base);
+        text-decoration: none;
+    }
+
+    .error-message {
+        background-color: #fee2e2;
+        border: 1px solid #dc2626;
+        color: #991b1b;
+        padding: var(--space-3) var(--space-4);
+        border-radius: var(--radius-md);
+        margin-bottom: var(--space-4);
+        font-size: var(--text-sm);
+    }
+
+    cap-widget {
+        --cap-background: var(--color-bg-elevated);
+        --cap-border-color: var(--color-border);
+        --cap-border-radius: var(--radius-md);
+        --cap-color: var(--color-text);
+        --cap-font: inherit;
+        --cap-checkbox-background: var(--color-bg);
+        --cap-checkbox-border: 1px solid var(--color-border);
+    }
+</style>

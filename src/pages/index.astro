@@ -1,88 +1,65 @@
 ---
 import { getCollection } from "astro:content";
 import Layout from "../layouts/Layout.astro";
-import Experiences from "../components/Experiences.astro";
+import Clients from "../components/Clients.astro";
 import Config from "../../config.mjs";
+import { sortClients } from "../utils/sortClients";
 
-const posts = await getCollection("writing", ({ data }) => import.meta.env.PROD ? !data.draft : true);
-
-const SLICE_START = 0;
-const SLICE_COUNT = 3;
-
-// Sort by date, newest first, take first 3
-const latestPosts = posts
-  .sort((first, second) => second.data.pubDate.valueOf() - first.data.pubDate.valueOf())
-  .slice(SLICE_START, SLICE_COUNT);
+const clients = await getCollection("clients");
+const sortedClients = sortClients(clients);
 ---
 
-<Layout title="Alex Marshall - Backend Engineer">
-  <header class="page-header">
-    <p class="subtitle">Backend Engineer</p>
-    <h1 transition:name="home-title">Alex Marshall</h1>
-    <p class="subtitle">Infrastructure & Systems Design</p>
-  </header>
+<Layout title="clients.lol - VRChat Client Directory">
+    <header class="page-header">
+        <h1 transition:name="home-title">Client Hub</h1>
+        <p class="subtitle">A curated directory of VRChat clients</p>
+    </header>
 
-  <section>
-    <p>
-      Backend engineer focused on infrastructure and systems design. Flexible
-      across teams and independent work. Building reliable systems with
-      TypeScript, Node.js, and modern cloud infrastructure.
-    </p>
-  </section>
+    <section>
+        <p>
+            Discover the best VRChat clients with comprehensive information
+            about features, pricing, and quality. Each client is reviewed and
+            categorized for easy comparison.
+        </p>
+    </section>
 
-  <hr />
+    <hr />
 
-  <Experiences />
+    <Clients clients={sortedClients} />
 
-  <hr />
+    <hr />
 
-  <section>
-    <h2>Technologies</h2>
-    <p class="technologies">
-      TypeScript, Node.js, Express.js, Hono<br />
-      PostgreSQL, MongoDB, Redis<br />
-      AWS, Cloudflare, Docker, SST<br />
-      OAuth2, JWT, WebSockets
-    </p>
-  </section>
+    <section>
+        <h2>About</h2>
+        <p>
+            clients.lol is an independent directory providing unbiased
+            information about VRChat modification clients. We don't endorse or
+            affiliate with any specific client—our goal is to help users make
+            informed decisions.
+        </p>
+    </section>
 
-  <hr />
+    <hr />
 
-  <section>
-    <h2>Latest Writing</h2>
-    <ul class="writing-list">
-      {
-        latestPosts.map((post) => (
-          <li>
-            <a href={`/writing/${post.id.replace(/\.mdx?$/, "")}`}>
-              <h3>{post.data.title}</h3>
-              <p class="excerpt">{post.data.description}</p>
-              <span class="date">
-                {post.data.pubDate.toLocaleDateString("en-US", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}
-              </span>
-            </a>
-          </li>
-        ))
-      }
-    </ul>
-    <p style="margin-top: var(--space-6);">
-      <a href="/writing">View all writing →</a>
-    </p>
-  </section>
-
-  <hr />
-
-  <section>
-    <h2>Get in touch</h2>
-    <p>Feel free to reach out:</p>
-    <div class="links">
-      <a href={`mailto:${Config.email}`}>Email</a>
-      <a href={Config.github}>GitHub</a>
-      <a href="/pgp.txt">PGP Key</a>
-    </div>
-  </section>
+    <section>
+        <h2>Get in touch</h2>
+        <p>Found an issue or want to suggest a client?</p>
+        <div class="links">
+            <a href={`mailto:${Config.email}`}>Email</a>
+            <a href={Config.github}>GitHub</a>
+        </div>
+    </section>
 </Layout>
+
+<style>
+    .links {
+        display: flex;
+        gap: var(--space-4);
+        margin-top: var(--space-4);
+    }
+
+    .links a {
+        font-size: var(--text-sm);
+        font-weight: 500;
+    }
+</style>

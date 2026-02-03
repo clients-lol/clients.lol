@@ -1,6 +1,7 @@
 ---
 import { ViewTransitions } from "astro:transitions";
 import "../styles/global.css";
+import Config from "../../config.mjs";
 
 interface Props {
     title: string;
@@ -11,7 +12,7 @@ interface Props {
 
 const {
     title,
-    description = "Alex Marshall. Backend engineer focused on infrastructure and systems design.",
+    description = "A curated directory of VRChat clients with comprehensive information about features, pricing, and quality.",
     pubDate,
     image,
 } = Astro.props;
@@ -64,8 +65,8 @@ const formattedDate = pubDate
         <!-- Analytics -->
         <script
             defer
-            src="https://stats.xvh.lol/script.js"
-            data-website-id="554a7115-674a-406a-886a-685e799b3a7e"></script>
+            src={`${Config.telemetryUrl}/script.js`}
+            data-website-id={Config.telemetryId}></script>
 
         <meta name="generator" content={Astro.generator} />
         <title>{title}</title>
@@ -84,13 +85,11 @@ const formattedDate = pubDate
         <div class="site-wrapper">
             <nav class="main-nav" transition:persist>
                 <div class="nav-content">
-                    <a href="/" class="nav-logo">Alex Marshall</a>
+                    <a href="/" class="nav-logo">clients.lol</a>
                     <div class="nav-links">
-                        <a href="/">Home</a>
-                        <a href="/writing">Writing</a>
-                        <a href={`mailto:${"a.marshall@tutamail.com"}`}
-                            >Contact</a
-                        >
+                        <a href="/">Clients</a>
+                        <a href="/submit">Submit</a>
+                        <a href={`mailto:${"contact@clients.lol"}`}>Contact</a>
                     </div>
                 </div>
             </nav>

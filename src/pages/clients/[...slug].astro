@@ -1,0 +1,367 @@
+---
+import { getCollection, render } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+
+export async function getStaticPaths() {
+    const clients = await getCollection("clients");
+    return clients.map((client) => ({
+        params: { slug: client.id.replace(/\.md$/, "") },
+        props: { client },
+    }));
+}
+
+const { client } = Astro.props;
+const { Content } = await render(client);
+const {data} = client;
+---
+
+<Layout title={`${data.name} - clients.lol`} description={data.description}>
+    <div class="back-link">
+        <a href="/">← Back to Clients</a>
+    </div>
+
+    <header class="page-header client-header">
+        <h1 transition:name={`client-title-${client.id}`}>{data.name}</h1>
+        <div class="header-links">
+            {
+                data.website && (
+                    <a
+                        href={data.website}
+                        target="_blank"
+                        rel="nofollow noopener"
+                        class="header-btn"
+                    >
+                        Website
+                    </a>
+                )
+            }
+            {
+                data.discord && (
+                    <a
+                        href={data.discord}
+                        target="_blank"
+                        rel="nofollow noopener"
+                        class="header-btn"
+                    >
+                        Discord
+                    </a>
+                )
+            }
+        </div>
+    </header>
+
+    <section class="two-column">
+        <div class="column">
+            <h2>About the Client</h2>
+            <div class="description">
+                <Content />
+            </div>
+
+            <dl class="metadata">
+                <div class="meta-row">
+                    <dt>OS</dt>
+                    <dd><span class="badge">{data.os}</span></dd>
+                </div>
+                <div class="meta-row">
+                    <dt>Type</dt>
+                    <dd><span class="badge">{data.type}</span></dd>
+                </div>
+                <div class="meta-row">
+                    <dt>Status</dt>
+                    <dd>
+                        <span
+                            class={`status-badge status-${data.status.toLowerCase()}`}
+                            >{data.status}</span>
+                    </dd>
+                </div>
+                <div class="meta-row">
+                    <dt>Last Updated</dt>
+                    <dd>
+                        {
+                            data.lastUpdated
+                                ? data.lastUpdated.toLocaleDateString("en-US", {
+                                      month: "long",
+                                      year: "numeric",
+                                  })
+                                : "Unknown"
+                        }
+                    </dd>
+                </div>
+                <div class="meta-row">
+                    <dt>Staff Quality</dt>
+                    <dd>{data.staffQuality}</dd>
+                </div>
+            </dl>
+        </div>
+
+        <div class="column">
+            <h2>Owner</h2>
+            <div class="owner-card">
+                {
+                    data.owner.avatar && (
+                        <img
+                            src={data.owner.avatar}
+                            alt={data.owner.name}
+                            class="owner-avatar"
+                        />
+                    )
+                }
+                <span class="owner-name">{data.owner.name}</span>
+            </div>
+        </div>
+    </section>
+
+    {data.pricing && data.pricing.length > 0 && (
+        <section class="pricing-section">
+            <h2>Pricing</h2>
+            <div class="pricing-clean-list">
+                {data.pricing.map((plan) => (
+                    <div class="pricing-row">
+                        <span class="plan-name">{plan.plan}</span>
+                        <div class="plan-cost">
+                            <span class="plan-price">{plan.price}</span>
+                            {plan.period && <span class="plan-period">/ {plan.period}</span>}
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </section>
+    )}
+
+    <hr />
+
+    <section>
+        <h2>Features</h2>
+        <ul class="features-list">
+            {
+                data.features.map((feature) => (
+                    <li class="feature-item">{feature}</li>
+                ))
+            }
+        </ul>
+    </section>
+</Layout>
+
+<style>
+    .back-link {
+        margin-bottom: var(--space-6);
+    }
+
+    .back-link a {
+        font-size: var(--text-sm);
+        text-decoration: none;
+    }
+
+    .client-header {
+        margin-bottom: var(--space-8);
+    }
+
+    .client-header h1 {
+        margin-bottom: var(--space-4);
+    }
+
+    .header-links {
+        display: flex;
+        gap: var(--space-3);
+        flex-wrap: wrap;
+    }
+
+    .header-btn {
+        display: inline-flex;
+        align-items: center;
+        padding: var(--space-2) var(--space-4);
+        background-color: var(--stone-200);
+        border-radius: var(--radius-md);
+        text-decoration: none;
+        font-size: var(--text-sm);
+        font-weight: 500;
+        color: var(--color-text);
+        transition: background-color var(--transition-fast);
+    }
+
+    .header-btn:hover {
+        background-color: var(--stone-300);
+        color: var(--color-text);
+    }
+
+    .two-column {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: var(--space-8);
+        margin-bottom: var(--space-8);
+    }
+
+    @media (max-width: 640px) {
+        .two-column {
+            grid-template-columns: 1fr;
+            gap: var(--space-6);
+        }
+    }
+
+    .column h2 {
+        font-size: var(--text-xl);
+        margin-bottom: var(--space-4);
+        padding-left: var(--space-3);
+        border-left: 3px solid var(--color-accent);
+    }
+
+    .description {
+        color: var(--color-text-muted);
+        margin-bottom: var(--space-6);
+    }
+
+    .description :global(p) {
+        margin-bottom: var(--space-4);
+        line-height: 1.7;
+    }
+
+    .metadata {
+        margin: 0;
+    }
+
+    .meta-row {
+        display: flex;
+        gap: var(--space-4);
+        padding: var(--space-2) 0;
+        border-bottom: 1px solid var(--color-border);
+    }
+
+    .meta-row:last-child {
+        border-bottom: none;
+    }
+
+    .meta-row dt {
+        font-weight: 600;
+        min-width: 120px;
+        color: var(--color-text);
+    }
+
+    .meta-row dd {
+        margin: 0;
+        color: var(--color-text-muted);
+    }
+
+    .badge {
+        display: inline-block;
+        padding: var(--space-1) var(--space-3);
+        background-color: var(--stone-200);
+        border-radius: var(--radius-sm);
+        font-size: var(--text-xs);
+        font-weight: 600;
+        color: var(--stone-700);
+    }
+
+    .status-badge {
+        display: inline-block;
+        padding: var(--space-1) var(--space-3);
+        border-radius: var(--radius-sm);
+        font-size: var(--text-xs);
+        font-weight: 600;
+    }
+
+    .status-active {
+        background-color: #dcfce7;
+        color: #166534;
+    }
+
+    .status-inactive {
+        background-color: var(--stone-200);
+        color: var(--stone-600);
+    }
+
+    .status-discontinued {
+        background-color: #fee2e2;
+        color: #991b1b;
+    }
+
+    .owner-card {
+        display: flex;
+        align-items: center;
+        gap: var(--space-4);
+        padding: var(--space-4);
+        background-color: var(--color-bg-elevated);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-lg);
+    }
+
+    .owner-avatar {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        margin: 0;
+    }
+
+    .owner-name {
+        font-weight: 600;
+        color: var(--color-text);
+    }
+
+    .features-list {
+        list-style: disc;
+        padding-left: var(--space-6);
+        margin: 0;
+    }
+
+    .feature-item {
+        padding: var(--space-2) 0;
+        font-size: var(--text-base);
+        color: var(--color-text);
+    }
+
+    .feature-item::marker {
+        color: var(--color-accent);
+    }
+
+    .pricing-clean-list {
+        display: flex;
+        flex-direction: column;
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-md);
+        background-color: var(--color-bg-elevated);
+        overflow: hidden;
+    }
+
+    .pricing-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: var(--space-3) var(--space-4);
+        border-bottom: 1px solid var(--color-border);
+    }
+
+    .pricing-row:last-child {
+        border-bottom: none;
+    }
+
+    .plan-name {
+        font-weight: 500;
+        color: var(--color-text);
+        font-size: var(--text-base);
+    }
+
+    .plan-cost {
+        text-align: right;
+    }
+
+    .plan-price {
+        font-weight: 600;
+        color: var(--color-text);
+    }
+
+    .plan-period {
+        color: var(--color-text-muted);
+        font-size: var(--text-sm);
+        margin-left: 2px;
+    }
+    
+    .pricing-section {
+        margin-bottom: var(--space-8);
+    }
+
+    .pricing-section h2 {
+        font-size: var(--text-xl);
+        margin-bottom: var(--space-4);
+        padding-left: var(--space-3);
+        border-left: 3px solid var(--color-accent);
+    }
+</style>
