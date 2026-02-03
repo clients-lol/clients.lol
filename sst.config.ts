@@ -1,6 +1,6 @@
 /// <reference path="./.sst/platform/config.d.ts" />
 
-const PRODUCTION_STAGES = ["cold", "prod", "production"];
+const PRODUCTION_STAGES = ["cold", "prod", "production", "main"];
 
 function getDomain(stage: string) {
   const isProduction = PRODUCTION_STAGES.includes(stage);
