@@ -40,13 +40,14 @@ jobs:
         id: stage
         run: |
           if [ "${{ github.ref_name }}" = "main" ] || [ "${{ github.ref_name }}" = "cold" ]; then
-            echo "stage=cold" >> $GITHUB_OUTPUT
-          elif [ "${{ github.ref_name }}" = "redesign" ]; then
-            echo "stage=redesign" >> $GITHUB_OUTPUT
+            echo "stage=production" >> $GITHUB_OUTPUT
+            echo "is_production=true" >> $GITHUB_OUTPUT
           elif [ "${{ github.event_name }}" = "pull_request" ]; then
             echo "stage=pr-${{ github.event.pull_request.number }}" >> $GITHUB_OUTPUT
+            echo "is_production=false" >> $GITHUB_OUTPUT
           else
-            echo "stage=preview-${{ github.run_id }}" >> $GITHUB_OUTPUT
+            echo "stage=${{ github.ref_name }}" >> $GITHUB_OUTPUT
+            echo "is_production=false" >> $GITHUB_OUTPUT
           fi
 
       - name: Deploy to SST
@@ -58,17 +59,15 @@ jobs:
 
       - name: Get deployment URL
         id: url
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
         run: |
-          # Get the URL from SST state
-          URL=$(pnpm sst state --stage ${{ steps.stage.outputs.stage }} 2>/dev/null | grep -o 'https://[^ ]*' || echo "")
-          if [ -z "$URL" ]; then
-            # Fallback to constructing the URL
-            if [ "${{ steps.stage.outputs.stage }}" = "cold" ]; then
-              URL="https://xvh.lol"
-            fi
+          # Try to get URL from SST state
+          URL=$(pnpm sst state --stage ${{ steps.stage.outputs.stage }} 2>/dev/null | grep -oP 'https://[^\s]+' | head -1 || echo "")
+          
+          # Fallback for production
+          if [ -z "$URL" ] && [ "${{ steps.stage.outputs.is_production }}" = "true" ]; then
+            URL="https://clients.lol"
           fi
+          
           echo "url=$URL" >> $GITHUB_OUTPUT
           echo "Deployed to: $URL"
 
@@ -78,12 +77,11 @@ jobs:
         with:
           script: |
             const url = '${{ steps.url.outputs.url }}' || 'URL not available';
-            const stage = '${{ steps.stage.outputs.stage }}';
-            const isProduction = ['cold', 'prod', 'production'].includes(stage);
+            const isProduction = '${{ steps.stage.outputs.is_production }}' === 'true';
 
             const body = isProduction 
               ? `🚀 **Production deployed**: [${url}](${url})`
-              : `🚀 **Preview deployed**: [${url}](${url})\n\nStage: \`${stage}\``;
+              : `🚀 **Preview deployed**: [${url}](${url})`;
 
             github.rest.issues.createComment({
               issue_number: context.issue.number,
