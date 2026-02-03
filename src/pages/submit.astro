@@ -1,75 +1,144 @@
 ---
 // Redirect page - submits go to Tally form
+import { ViewTransitions } from "astro:transitions";
+import "../styles/global.css";
+import Config from "../../config.mjs";
+
+const title = "Submit a Client - clients.lol";
+const description = "Submit a VRChat client to our directory.";
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 ---
 
-<style>
-    .redirect-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        min-height: 100vh;
-        padding: var(--space-6);
-        text-align: center;
-    }
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="description" content={description} />
+        <meta http-equiv="refresh" content="0; url=https://tally.so/r/KY1GEM" />
 
-    .redirect-content {
-        max-width: var(--max-width);
-    }
+        <!-- Open Graph -->
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={canonicalURL} />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
 
-    .redirect-title {
-        font-size: var(--text-2xl);
-        font-weight: 500;
-        color: var(--color-text);
-        margin-bottom: var(--space-4);
-    }
+        <!-- Twitter -->
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:url" content={canonicalURL} />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
 
-    .redirect-text {
-        color: var(--color-text-muted);
-        margin-bottom: var(--space-6);
-    }
+        <!-- Analytics -->
+        <script
+            defer
+            src={`${Config.telemetryUrl}/script.js`}
+            data-website-id={Config.telemetryId}></script>
 
-    .redirect-link {
-        color: var(--color-accent);
-        text-decoration: none;
-        font-weight: 500;
-        transition: color var(--transition-fast);
-    }
+        <meta name="generator" content={Astro.generator} />
+        <title>{title}</title>
 
-    .redirect-link:hover {
-        color: var(--color-accent-hover);
-    }
+        <!-- View Transitions -->
+        <ViewTransitions fallback="swap" />
 
-    .spinner {
-        width: 40px;
-        height: 40px;
-        border: 3px solid var(--color-border);
-        border-top-color: var(--color-accent);
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
-        margin-bottom: var(--space-6);
-    }
+        <!-- Preload fonts -->
+        <link rel="preconnect" href="https://fonts.bunny.net" />
+        <link
+            href="https://fonts.bunny.net/css?family=dm-sans:400,400i,500,500i,700,700i|dm-serif-display:400|dm-mono:400,500"
+            rel="stylesheet"
+        />
+    </head>
+    <body>
+        <div class="redirect-container">
+            <div class="redirect-content">
+                <div class="spinner"></div>
+                <h1 class="redirect-title">Submit a Client</h1>
+                <p class="redirect-text">
+                    Redirecting you to our submission form...
+                </p>
+                <p class="redirect-fallback">
+                    <a href="https://tally.so/r/KY1GEM">
+                        Click here if you're not redirected automatically
+                    </a>
+                </p>
+            </div>
+        </div>
 
-    @keyframes spin {
-        to {
-            transform: rotate(360deg);
-        }
-    }
-</style>
+        <script>
+            window.location.href = "https://tally.so/r/KY1GEM";
+        </script>
 
-<div class="redirect-container">
-    <div class="redirect-content">
-        <div class="spinner"></div>
-        <h1 class="redirect-title">Submit a Client</h1>
-        <p class="redirect-text">
-            Redirecting you to our submission form...<br />
-            <a class="redirect-link" href="https://tally.so/r/KY1GEM">
-                Click here if you're not redirected
-            </a>
-        </p>
-    </div>
-</div>
+        <style>
+            .redirect-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                min-height: 100vh;
+                padding: var(--space-6);
+                text-align: center;
+                background-color: var(--color-bg);
+            }
 
-<script>
-    window.location.href = "https://tally.so/r/KY1GEM";
-</script>
+            .redirect-content {
+                max-width: var(--max-width);
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .redirect-title {
+                font-family: var(--font-sans);
+                font-size: var(--text-3xl);
+                font-weight: 500;
+                line-height: 1.2;
+                color: var(--color-text);
+                margin-bottom: var(--space-4);
+                letter-spacing: -0.02em;
+            }
+
+            .redirect-text {
+                font-family: var(--font-sans);
+                font-size: var(--text-base);
+                line-height: 1.7;
+                color: var(--color-text-muted);
+                margin-bottom: var(--space-4);
+            }
+
+            .redirect-fallback {
+                font-family: var(--font-sans);
+                font-size: var(--text-sm);
+                line-height: 1.7;
+            }
+
+            .redirect-fallback a {
+                color: var(--color-accent);
+                text-decoration: underline;
+                text-underline-offset: 3px;
+                text-decoration-thickness: 1px;
+                transition: color var(--transition-fast);
+                font-weight: 500;
+            }
+
+            .redirect-fallback a:hover {
+                color: var(--color-accent-hover);
+            }
+
+            .spinner {
+                width: 48px;
+                height: 48px;
+                border: 3px solid var(--color-border);
+                border-top-color: var(--color-accent);
+                border-radius: 50%;
+                animation: spin 1s linear infinite;
+                margin-bottom: var(--space-8);
+            }
+
+            @keyframes spin {
+                to {
+                    transform: rotate(360deg);
+                }
+            }
+        </style>
+    </body>
+</html>
