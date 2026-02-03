@@ -2,15 +2,74 @@
 // Redirect page - submits go to Tally form
 ---
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="0; url=https://tally.so/r/KY1GEM">
-    <title>Redirecting to Submission Form...</title>
-</head>
-<body>
-    <p>Redirecting to submission form...</p>
-    <p>If you are not redirected, <a href="https://tally.so/r/KY1GEM">click here</a>.</p>
-</body>
-</html>
+<style>
+    .redirect-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        padding: var(--space-6);
+        text-align: center;
+    }
+
+    .redirect-content {
+        max-width: var(--max-width);
+    }
+
+    .redirect-title {
+        font-size: var(--text-2xl);
+        font-weight: 500;
+        color: var(--color-text);
+        margin-bottom: var(--space-4);
+    }
+
+    .redirect-text {
+        color: var(--color-text-muted);
+        margin-bottom: var(--space-6);
+    }
+
+    .redirect-link {
+        color: var(--color-accent);
+        text-decoration: none;
+        font-weight: 500;
+        transition: color var(--transition-fast);
+    }
+
+    .redirect-link:hover {
+        color: var(--color-accent-hover);
+    }
+
+    .spinner {
+        width: 40px;
+        height: 40px;
+        border: 3px solid var(--color-border);
+        border-top-color: var(--color-accent);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin-bottom: var(--space-6);
+    }
+
+    @keyframes spin {
+        to {
+            transform: rotate(360deg);
+        }
+    }
+</style>
+
+<div class="redirect-container">
+    <div class="redirect-content">
+        <div class="spinner"></div>
+        <h1 class="redirect-title">Submit a Client</h1>
+        <p class="redirect-text">
+            Redirecting you to our submission form...<br />
+            <a class="redirect-link" href="https://tally.so/r/KY1GEM">
+                Click here if you're not redirected
+            </a>
+        </p>
+    </div>
+</div>
+
+<script>
+    window.location.href = "https://tally.so/r/KY1GEM";
+</script>
