@@ -13,6 +13,7 @@ concurrency:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment: SST
     if: github.event.action != 'closed'
     permissions:
       contents: read
@@ -51,7 +52,6 @@ jobs:
       - name: Deploy to SST
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_DEFAULT_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
           echo "Deploying to stage: ${{ steps.stage.outputs.stage }}"
           pnpm sst deploy --stage ${{ steps.stage.outputs.stage }}
@@ -60,7 +60,6 @@ jobs:
         id: url
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_DEFAULT_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
           # Get the URL from SST state
           URL=$(pnpm sst state --stage ${{ steps.stage.outputs.stage }} 2>/dev/null | grep -o 'https://[^ ]*' || echo "")
@@ -119,7 +118,6 @@ jobs:
       - name: Destroy preview environment
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_DEFAULT_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
           STAGE="pr-${{ github.event.pull_request.number }}"
           echo "Destroying stage: $STAGE"
