@@ -1,6 +1,7 @@
 # clients.lol
 
-A curated directory of VRChat clients. Browse, compare, and submit clients with comprehensive information about features, pricing, and quality.
+A curated directory of VRChat clients. Browse, compare, and submit clients with
+comprehensive information about features, pricing, and quality.
 
 ## Tech Stack
 
@@ -19,7 +20,8 @@ pnpm build        # Build for production
 
 ## Deployment
 
-Pushes to `master` branch automatically deploy to https://clients.lol via GitHub Actions.
+Pushes to `master` branch automatically deploy to https://clients.lol via GitHub
+Actions.
 
 Other branches get preview URLs at `https://<random_id>.clients.lol`.
 
@@ -65,23 +67,28 @@ features:
 
 ## Submit Form
 
-The submit page includes CAPTCHA verification using [Cap.js](https://capjs.js.org) to prevent spam.
+The submit page includes CAPTCHA verification using
+[Cap.js](https://capjs.js.org) to prevent spam.
 
 ## License
 
 This repository uses a dual license structure:
 
-**Code**: [Apache License 2.0](LICENSE) - Website source code, components, and utilities
+**Code**: [Apache License 2.0](LICENSE) - Website source code, components, and
+utilities
 
-**Data/Content**: [CC BY-SA 4.0](DATA_LICENSE) - Client listings, descriptions, and curated database
+**Data/Content**: [CC BY-SA 4.0](DATA_LICENSE) - Client listings, descriptions,
+and curated database
 
 ### Using Our Data
 
-If you're building a Discord bot, app, or integration that uses clients.lol data:
+If you're building a Discord bot, app, or integration that uses clients.lol
+data:
 
 1. **Ask first** - Send us a message to discuss your use case
 2. **Give credit** - Must attribute "data from clients.lol"
 3. **Share alike** - Any modified datasets must also be CC BY-SA 4.0
-4. **Non-commercial use preferred** - Commercial applications require explicit permission
+4. **Non-commercial use preferred** - Commercial applications require explicit
+   permission
 
 Contact us to request API access or discuss data licensing.
