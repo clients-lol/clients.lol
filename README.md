@@ -1,6 +1,6 @@
 # clients.lol
 
-A open-source database of VRChat clients.
+An open-source database of VRChat clients.
 
 ## Development
 
@@ -18,7 +18,6 @@ bun run build
 ```yaml
 ---
 name: "Client Name"
-description: "What this client does"
 os: "Windows | Linux | Windows & Linux"
 type: "Standalone | BepInEx | MelonLoader | Abyss Loader"
 status: "Active | Inactive | Discontinued"
@@ -28,14 +27,14 @@ features:
   movement: true | false
   esp: true | false
   teleports: true | false
-  vrSupport: true | false
+  vr: true | false
   crashers: true | false
   protections: true | false
-website: "https://example.com"  # can also be a Discord invite
+website: "https://example.com" # can also be a Discord invite
 ---
 ```
 
-3. Add a short body description below the frontmatter
+3. Leave the body empty
 
 ## License
 
