@@ -36,10 +36,6 @@ website: "https://example.com" # can also be a Discord invite
 
 3. Leave the body empty
 
-## License
-
-MIT. Code, content, data - it's all under [MIT License](LICENSE).
-
 ## Contributing
 
 Open a PR with client additions or updates.
