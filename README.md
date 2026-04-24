@@ -1,51 +1,49 @@
 # clients.lol
 
-A curated directory of VRChat clients. Browse, compare, and submit clients with
-comprehensive information about features, pricing, and quality.
+A straightforward directory for VRChat clients. You can browse what's out there,
+compare features and pricing, and submit new clients.
 
 ## Tech Stack
 
-- **Framework**: [Astro](https://astro.build)
-- **Deployment**: [SST](https://sst.dev) on Cloudflare Workers
-- **Styling**: Custom CSS with CSS variables
-- **Content**: Markdown with frontmatter via Astro Content Collections
+- [Astro](https://astro.build) - static site framework
+- [SST](https://sst.dev) - deploys to Cloudflare Workers
+- Custom CSS with variables for styling
+- Content lives in Markdown files with frontmatter
 
 ## Development
 
 ```sh
-pnpm install      # Install dependencies
-pnpm dev          # Start dev server at localhost:4321
-pnpm build        # Build for production
+bun install      # get dependencies
+bun dev          # localhost:4321
+bun run build    # production build
 ```
 
 ## Deployment
 
-Pushes to `master` branch automatically deploy to https://clients.lol via GitHub
-Actions.
-
-Other branches get preview URLs at `https://<random_id>.clients.lol`.
+Push to `master` and GitHub Actions handles the rest - your changes go live at
+https://clients.lol.
 
 ## Project Structure
 
 ```
 src/
-├── content/clients/    # Client markdown files
-├── components/         # Astro components
-├── layouts/           # Page layouts
-├── pages/             # Route definitions
-├── utils/             # Utility functions
-└── styles/            # Global styles
+├── content/clients/    # each client has its own .md file
+├── components/         # reusable Astro bits
+├── layouts/           # page templates
+├── pages/             # routes
+├── utils/             # helper functions
+└── styles/            # CSS
 ```
 
 ## Adding a Client
 
-1. Create a new `.md` file in `src/content/clients/`
-2. Add frontmatter with client details:
+1. Drop a new `.md` file in `src/content/clients/`
+2. Fill in the frontmatter:
 
 ```yaml
 ---
 name: "Client Name"
-description: "Brief description of the client"
+description: "What this client does"
 os: "Windows | Linux | Windows & Linux"
 type: "Standalone | BepInEx | MelonLoader | Abyss Loader"
 status: "Active | Inactive | Discontinued"
@@ -63,32 +61,25 @@ features:
 ---
 ```
 
-3. Write a short description in the body
+3. Add a brief description below the frontmatter
 
 ## Submit Form
 
-The submit page includes CAPTCHA verification using
-[Cap.js](https://capjs.js.org) to prevent spam.
+There's a submit form with [Cap.js](https://capjs.js.org) CAPTCHA to keep the
+spam bots away.
 
 ## License
 
-This repository uses a dual license structure:
-
-**Code**: [Apache License 2.0](LICENSE) - Website source code, components, and
-utilities
-
-**Data/Content**: [CC BY-SA 4.0](DATA_LICENSE) - Client listings, descriptions,
-and curated database
+Code is under [Apache 2.0](LICENSE). Content (client listings, descriptions,
+all that data) is [CC BY-SA 4.0](DATA_LICENSE).
 
 ### Using Our Data
 
-If you're building a Discord bot, app, or integration that uses clients.lol
-data:
+Building something with our data? Here's the deal:
 
-1. **Ask first** - Send us a message to discuss your use case
-2. **Give credit** - Must attribute "data from clients.lol"
-3. **Share alike** - Any modified datasets must also be CC BY-SA 4.0
-4. **Non-commercial use preferred** - Commercial applications require explicit
-   permission
+1. Reach out first - let's talk about what you're making
+2. Credit us - just say "data from clients.lol"
+3. Share alike - modified data stays CC BY-SA 4.0
+4. Commercial use? You'll need explicit permission
 
-Contact us to request API access or discuss data licensing.
+Get in touch if you want API access or need to discuss licensing.

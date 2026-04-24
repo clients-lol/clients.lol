@@ -1,5 +1,0 @@
-onlyBuiltDependencies:
-  - aws-sdk
-  - esbuild
-  - sharp
-  - workerd
