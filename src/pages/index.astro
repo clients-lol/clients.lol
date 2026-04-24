@@ -5,7 +5,7 @@ import { getClients } from "../lib/clients";
 const clients = await getClients();
 ---
 
-<Layout title="clients.lol - VRChat Client Directory">
+<Layout title="VRChat Client Database | clients.lol">
     <header>
         <div class="left">
             <h1>clients.lol</h1>
@@ -93,7 +93,14 @@ const clients = await getClients();
                         <td>{client.data.status}</td>
                         <td>
                             {client.data.website ? (
-                                <a class="muted-link" href={client.data.website} target="_blank" rel="noopener noreferrer">{client.data.website}</a>
+                                <a
+                                    class="muted-link"
+                                    href={client.data.website}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    {client.data.website}
+                                </a>
                             ) : (
                                 "-"
                             )}
@@ -162,7 +169,8 @@ const clients = await getClients();
             <div class="code-block">
                 <code
                     >curl <a href="/api.json">https://clients.lol/api.json</a
-                    ></code>
+                    ></code
+                >
             </div>
             <p>Use the client name as the main lookup field.</p>
             <h2>Contribute</h2>

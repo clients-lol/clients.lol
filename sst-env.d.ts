@@ -6,12 +6,12 @@
 
 declare module "sst" {
   export interface Resource {
-    "Site": {
-      "type": "sst.cloudflare.StaticSite"
-      "url": string
-    }
+    Site: {
+      type: "sst.cloudflare.StaticSite";
+      url: string;
+    };
   }
 }
 
-import "sst"
-export {}
+import "sst";
+export {};
