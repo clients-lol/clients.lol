@@ -6,13 +6,12 @@
 
 declare module "sst" {
   export interface Resource {
-    Site: {
-      type: "sst.cloudflare.StaticSite";
-      url: string;
-    };
+    "Site": {
+      "type": "sst.cloudflare.StaticSite"
+      "url": string
+    }
   }
 }
-/// <reference path="sst-env.d.ts" />
 
-import "sst";
-export {};
+import "sst"
+export {}
