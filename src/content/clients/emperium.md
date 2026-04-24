@@ -7,22 +7,12 @@ os: "Linux"
 type: "BepInEx"
 status: "Active"
 staffQuality: "Good"
-pricing:
-  - plan: "Standard"
-    price: "Free"
-owner:
-  name: "v"
-  avatar: "/avatars/v.webp"
+access: "Free"
 features:
-  - "Quality of Life Improvements"
-  - "Flight & Movement"
-  - "Player Controls"
-  - "ESP Systems"
-  - "VR Support"
-  - "Open Source on GitHub"
-  - "Regular Updates"
-  - "And More..."
-discord: "https://discord.gg/myuWgYP8WS"
+  movement: true
+  esp: true
+  vrSupport: true
+website: "https://discord.gg/myuWgYP8WS"
 ---
 
 Emperium runs on Linux using BepInEx. It includes flight, ESP, VR support, and

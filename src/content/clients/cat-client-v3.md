@@ -7,20 +7,12 @@ os: "Linux"
 type: "BepInEx"
 status: "Active"
 staffQuality: "Good"
-pricing:
-  - plan: "Free"
-    price: "Free"
-owner:
-  name: "c"
-  avatar: "/avatars/c.webp"
+access: "Free"
 features:
-  - "VR Menu"
-  - "Flight System"
-  - "10+ Features"
-  - "Player Controls"
-  - "ESP Systems"
-  - "And More..."
-discord: "https://discord.gg/V3GpuQDGJu"
+  movement: true
+  esp: true
+  vrSupport: true
+website: "https://discord.gg/V3GpuQDGJu"
 ---
 
 Cat Client V3 is built for Linux and works with MelonLoader or BepInEx. It has a

@@ -7,31 +7,12 @@ os: "Windows & Linux"
 type: "MelonLoader"
 status: "Active"
 staffQuality: "Average"
-pricing:
-  - plan: "Beta"
-    price: "$30"
-    period: "lifetime"
-  - plan: "Release"
-    price: "$40"
-    period: "lifetime"
-owner:
-  name: "Kazuna"
-  avatar: "/avatars/kazuna.webp"
+access: "Paid"
 features:
-  - "PC/VR Flight"
-  - "Teleport System"
-  - "Player ESP"
-  - "Log Joins/Leaves"
-  - "Jetpack Mode"
-  - "Force Jump"
-  - "Force Clone"
-  - "Earsape Mic"
-  - "E1 (30+ Payloads + Custom Support)"
-  - "Dynamic Third Person"
-  - "Dynamic Camera Zoom"
-  - "Serialization/Ghost Mode"
-  - "6 Types of Pickup Orbit"
-  - "And Much More..."
+  movement: true
+  esp: true
+  teleports: true
+  vrSupport: true
 ---
 
 MekaMod runs on Windows and Linux as a MelonLoader client. It includes flight,

@@ -7,22 +7,12 @@ os: "Windows"
 type: "Standalone"
 status: "Active"
 staffQuality: "Average"
-pricing:
-  - plan: "Free"
-    price: "Free"
-owner:
-  name: "cyconi"
+access: "Free"
 features:
-  - "50+ Features"
-  - "Flight & Movement"
-  - "ESP Systems"
-  - "Player Controls"
-  - "World Utilities"
-  - "VR Menu Support"
-  - "Quality of Life"
-  - "And More..."
+  movement: true
+  esp: true
+  vrSupport: true
 website: "https://exo-engine.com"
-discord: "https://discord.gg/exo-engine"
 ---
 
 Exo is a free standalone VRChat client for Windows. It has over 50 features

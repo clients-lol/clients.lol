@@ -2,48 +2,20 @@
 name: "Hexedware"
 description:
   "Hexedware offers a high-performance C++ client and VRChat Loader for Windows.
-  Choose between their internal solution or VRChat Loader with flexible
-  time-based pricing."
+  Choose between their internal solution or VRChat Loader with paid access."
 os: "Windows"
 type: "Standalone"
 status: "Active"
 staffQuality: "Good"
-pricing:
-  - plan: "Internal - One Day"
-    price: "$16"
-    period: "day"
-  - plan: "Internal - Weekly"
-    price: "$39"
-    period: "weekly"
-  - plan: "Internal - Monthly"
-    price: "$59"
-    period: "monthly"
-  - plan: "Loader - One Day"
-    price: "$6"
-    period: "day"
-  - plan: "Loader - Weekly"
-    price: "$14"
-    period: "weekly"
-  - plan: "Loader - Monthly"
-    price: "$24"
-    period: "monthly"
-owner:
-  name: "hxlfgbOul"
-  avatar: "/avatars/hxlfgbOul.webp"
+access: "Paid"
 features:
-  - "VR Support"
-  - "Drone Crash"
-  - "E12 Quest Crash"
-  - "Nameplates"
-  - "ESP Systems"
-  - "Flight & Movement"
-  - "Player Controls"
-  - "And Many More..."
+  movement: true
+  esp: true
+  vrSupport: true
+  crashers: true
 website: "https://hexed.cc"
-discord: "https://discord.gg/W84FEcJPhk"
 ---
 
-Hexedware runs on Windows with two pricing options: their internal C++ client
-and VRChat Loader. The internal solution ranges from $16/day to $59/month, while
-the Loader is more affordable at $6/day to $24/month. Both include VR support,
-crash utilities, ESP, flight, and player controls.
+Hexedware runs on Windows with two paid access options: their internal C++ client
+and VRChat Loader. Both include VR support, crash utilities, ESP, flight, and
+player controls.

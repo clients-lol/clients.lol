@@ -7,14 +7,11 @@ os: "Windows"
 type: "Standalone"
 status: "Active"
 staffQuality: "Average"
-pricing:
-  - plan: "Standard"
-    price: "Free"
-owner:
-  name: "Novo"
-  avatar: "/avatars/novo.webp"
+access: "Free"
 features:
-  - "E12 Quest Crasher"
+  movement: true
+  crashers: true
+  protections: true
 ---
 
 Raven is a free standalone client for Windows. It includes E12 quest crashers,

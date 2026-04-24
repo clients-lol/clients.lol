@@ -1,39 +1,26 @@
 ---
 import "../styles/global.css";
-import Config from "../../config.mjs";
 
 interface Props {
-    title: string;
+  title: string;
 }
 const { title } = Astro.props;
 ---
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta name="description" content="A directory of VRChat clients with features, pricing, and compatibility info." />
-        <meta property="og:title" content={title} />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content={new URL(Astro.url.pathname, Astro.site)} />
-        <meta property="og:description" content="A directory of VRChat clients with features, pricing, and compatibility info." />
-        <title>{title}</title>
-        <link rel="preconnect" href="https://fonts.bunny.net" />
-        <link href="https://fonts.bunny.net/css?family=dm-sans:400,500,700|dm-serif-display:400|dm-mono:400,500" rel="stylesheet" />
-    </head>
-    <body>
-        <div class="site-wrapper">
-            <nav class="main-nav">
-                <div class="nav-content">
-                    <a href="/" class="nav-logo">clients.lol</a>
-                    <div class="nav-links">
-                        <a href={`${Config.github}`}>GitHub</a>
-                    </div>
-                </div>
-            </nav>
-            <main>
-                <slot />
-            </main>
-        </div>
-    </body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="A directory of VRChat clients with access, compatibility, and feature info." />
+    <meta property="og:title" content={title} />
+    <meta property="og:type" content="website" />
+    <meta property="og:description" content="A directory of VRChat clients with access, compatibility, and feature info." />
+    <title>{title}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Rubik:wght@300..900&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <slot />
+  </body>
 </html>

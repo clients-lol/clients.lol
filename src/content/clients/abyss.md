@@ -7,29 +7,12 @@ os: "Windows"
 type: "Standalone"
 status: "Active"
 staffQuality: "Poor"
-pricing:
-  - plan: "Abyss Loader"
-    price: "$10"
-    period: "USD"
-  - plan: "Standalone Client"
-    price: "$150"
-    period: "one-time"
-owner:
-  name: "Unreal"
+access: "Paid"
 features:
-  - "Flight"
-  - "Player Rotation"
-  - "Mesh ESP"
-  - "Customizable ESP Colors/Blur/Iterations"
-  - "Box ESP"
-  - "Skeleton ESP"
-  - "Line ESP"
-  - "Nameplates"
-  - "PC/Quest Avatar Crash"
-  - "Item Lagger"
-  - "Drone Crash"
-  - "And more..."
-discord: "https://discord.gg/PsxTepWNYg"
+  movement: true
+  esp: true
+  crashers: true
+website: "https://discord.gg/PsxTepWNYg"
 ---
 
 Abyss runs on Windows and offers ESP options, flight, and crash utilities. The

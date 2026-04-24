@@ -1,15 +1,13 @@
-import { getCollection } from "astro:content";
+import { getClients } from "../lib/clients";
 
 export async function GET() {
-  const clients = await getCollection("clients");
-
-  const data = clients.map((client) => ({
-    slug: client.slug,
-    ...client.data,
-    body: client.body,
+  const data = await getClients();
+  const payload = data.map(({ data, slug }) => ({
+    slug,
+    ...data,
   }));
 
-  return new Response(JSON.stringify(data, null, 2), {
+  return new Response(JSON.stringify(payload, null, 2), {
     headers: {
       "Content-Type": "application/json",
     },

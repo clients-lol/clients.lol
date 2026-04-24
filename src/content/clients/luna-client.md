@@ -7,20 +7,11 @@ os: "Windows"
 type: "Unix Loader"
 status: "Active"
 staffQuality: "Unknown"
-pricing:
-  - plan: "Free"
-    price: "Free"
-owner:
-  name: "Unknown"
+access: "Free"
 features:
-  - "30+ Features"
-  - "Quality of Life Improvements"
-  - "Protection Systems"
-  - "Udon Support"
-  - "Photon Support"
-  - "Flight & Movement"
-  - "ESP Systems"
-  - "And More..."
+  movement: true
+  esp: true
+  protections: true
 ---
 
 Luna Client is a free mod for Windows that works with Unix Loader. It has over

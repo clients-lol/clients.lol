@@ -2,65 +2,9 @@
 import Layout from "../layouts/Layout.astro";
 ---
 
-<Layout
-  title="404 - Page Not Found"
-  description="The page you're looking for doesn't exist."
->
-  <div class="error-page">
-    <h1>404</h1>
-    <p class="subtitle">Page not found</p>
-    <p class="description">
-      The page you're looking for doesn't exist or has been moved.
-    </p>
-    <a href="/" class="home-link">← Back to home</a>
-  </div>
+<Layout title="clients.lol">
+  <meta http-equiv="refresh" content="0; url=/" />
+  <script>
+    window.location.replace("/");
+  </script>
 </Layout>
-
-<style>
-  .error-page {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 60vh;
-    text-align: center;
-    padding: var(--space-8);
-  }
-
-  h1 {
-    font-size: 6rem;
-    font-weight: 500;
-    color: var(--stone-300);
-    line-height: 1;
-    margin-bottom: var(--space-4);
-  }
-
-  .subtitle {
-    font-size: var(--text-xl);
-    color: var(--color-text);
-    margin-bottom: var(--space-4);
-  }
-
-  .description {
-    font-size: var(--text-base);
-    color: var(--color-text-muted);
-    margin-bottom: var(--space-8);
-    max-width: 400px;
-  }
-
-  .home-link {
-    font-size: var(--text-base);
-    color: var(--color-link);
-    text-decoration: none;
-  }
-
-  .home-link:hover {
-    color: var(--color-link-hover);
-  }
-
-  @media (max-width: 640px) {
-    h1 {
-      font-size: 4rem;
-    }
-  }
-</style>
