@@ -22,13 +22,6 @@ export default defineConfig({
     host: "0.0.0.0",
   },
 
-  redirects: {
-    "/submit": {
-      status: 302,
-      destination: "https://tally.so/r/KY1GEM",
-    },
-  },
-
   devToolbar: {
     enabled: false,
   },

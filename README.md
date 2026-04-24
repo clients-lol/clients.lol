@@ -1,18 +1,16 @@
 # clients.lol
 
-A straightforward directory for VRChat clients. You can browse what's out there,
-compare features and pricing, and submit new clients.
+A directory of VRChat clients with information about features, pricing, and compatibility.
 
 ## Tech Stack
 
 - [Astro](https://astro.build) - static site framework
 - [SST](https://sst.dev) - deploys to Cloudflare Workers
-- Custom CSS with variables for styling
-- Content lives in Markdown files with frontmatter
+- [Bun](https://bun.sh) - package manager and runtime
 
 ## Development
 
-```sh
+```bash
 bun install      # get dependencies
 bun dev          # localhost:4321
 bun run build    # production build
@@ -20,8 +18,7 @@ bun run build    # production build
 
 ## Deployment
 
-Push to `master` and GitHub Actions handles the rest - your changes go live at
-https://clients.lol.
+Push to `master` and GitHub Actions handles the rest - changes go live at https://clients.lol.
 
 ## Project Structure
 
@@ -37,8 +34,8 @@ src/
 
 ## Adding a Client
 
-1. Drop a new `.md` file in `src/content/clients/`
-2. Fill in the frontmatter:
+1. Create a new `.md` file in `src/content/clients/`
+2. Add frontmatter with client details:
 
 ```yaml
 ---
@@ -65,21 +62,22 @@ features:
 
 ## Submit Form
 
-There's a submit form with [Cap.js](https://capjs.js.org) CAPTCHA to keep the
-spam bots away.
+There's a submit form with [Cap.js](https://capjs.js.org) CAPTCHA to keep spam away.
 
 ## License
 
-Code is under [Apache 2.0](LICENSE). Content (client listings, descriptions,
-all that data) is [CC BY-SA 4.0](DATA_LICENSE).
+MIT. Code, content, data - it's all under [MIT License](LICENSE).
 
-### Using Our Data
+## Contributing
 
-Building something with our data? Here's the deal:
+Data is stored as Markdown files in `src/content/clients/`.
 
-1. Reach out first - let's talk about what you're making
-2. Credit us - just say "data from clients.lol"
-3. Share alike - modified data stays CC BY-SA 4.0
-4. Commercial use? You'll need explicit permission
+To add or update a client, open a PR with your changes.
 
-Get in touch if you want API access or need to discuss licensing.
+## Questions?
+
+Open an issue or PR on [GitHub](https://github.com/clients-lol/clients.lol).
+
+---
+
+clients.lol is maintained by the VRChat community.

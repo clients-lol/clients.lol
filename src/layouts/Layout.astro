@@ -1,128 +1,39 @@
 ---
-import { ViewTransitions } from "astro:transitions";
 import "../styles/global.css";
 import Config from "../../config.mjs";
 
 interface Props {
     title: string;
-    description?: string;
-    pubDate?: Date;
-    image?: string;
 }
-
-const {
-    title,
-    description = "A curated directory of VRChat clients with comprehensive information about features, pricing, and quality.",
-    pubDate,
-    image,
-} = Astro.props;
-
-const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-const formattedDate = pubDate
-    ? pubDate.toLocaleDateString("en-US", {
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-      })
-    : null;
+const { title } = Astro.props;
 ---
-
 <!doctype html>
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta name="description" content={description} />
-
-        <!-- Open Graph -->
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content={canonicalURL} />
+        <meta name="description" content="A directory of VRChat clients with features, pricing, and compatibility info." />
         <meta property="og:title" content={title} />
-        <meta property="og:description" content={description} />
-        {
-            image && (
-                <meta
-                    property="og:image"
-                    content={new URL(image, Astro.site)}
-                />
-            )
-        }
-
-        <!-- Twitter -->
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:url" content={canonicalURL} />
-        <meta name="twitter:title" content={title} />
-        <meta name="twitter:description" content={description} />
-        {
-            image && (
-                <meta
-                    name="twitter:image"
-                    content={new URL(image, Astro.site)}
-                />
-            )
-        }
-
-        <!-- Analytics -->
-        <script
-            defer
-            src={`${Config.telemetryUrl}/script.js`}
-            data-website-id={Config.telemetryId}></script>
-
-        <meta name="generator" content={Astro.generator} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={new URL(Astro.url.pathname, Astro.site)} />
+        <meta property="og:description" content="A directory of VRChat clients with features, pricing, and compatibility info." />
         <title>{title}</title>
-
-        <!-- View Transitions -->
-        <ViewTransitions fallback="swap" />
-
-        <!-- Preload fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net" />
-        <link
-            href="https://fonts.bunny.net/css?family=dm-sans:400,400i,500,500i,700,700i|dm-serif-display:400|dm-mono:400,500"
-            rel="stylesheet"
-        />
+        <link href="https://fonts.bunny.net/css?family=dm-sans:400,500,700|dm-serif-display:400|dm-mono:400,500" rel="stylesheet" />
     </head>
     <body>
         <div class="site-wrapper">
-            <nav class="main-nav" transition:persist>
+            <nav class="main-nav">
                 <div class="nav-content">
                     <a href="/" class="nav-logo">clients.lol</a>
                     <div class="nav-links">
-                        <a href="/">Clients</a>
-                        <a href="/submit">Submit</a>
-                        <a href={`mailto:${"contact@clients.lol"}`}>Contact</a>
+                        <a href={`${Config.github}`}>GitHub</a>
                     </div>
                 </div>
             </nav>
-
-            <main transition:animate="morph">
+            <main>
                 <slot />
             </main>
         </div>
-
-        <script>
-            // View Transition lifecycle events
-            document.addEventListener("astro:before-preparation", () => {
-                document.body.classList.add("is-transitioning");
-            });
-
-            document.addEventListener("astro:after-swap", () => {
-                document.body.classList.remove("is-transitioning");
-
-                // Scroll to top on page change
-                window.scrollTo({ top: 0, behavior: "instant" });
-            });
-
-            // Handle reduced motion preference
-            const prefersReducedMotion = window.matchMedia(
-                "(prefers-reduced-motion: reduce)",
-            );
-
-            if (prefersReducedMotion.matches) {
-                document.documentElement.style.setProperty(
-                    "--transition-duration",
-                    "0ms",
-                );
-            }
-        </script>
     </body>
 </html>

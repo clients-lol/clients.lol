@@ -1,65 +1,84 @@
 ---
 import { getCollection } from "astro:content";
 import Layout from "../layouts/Layout.astro";
-import Clients from "../components/Clients.astro";
-import Config from "../../config.mjs";
-import { sortClients } from "../utils/sortClients";
 
 const clients = await getCollection("clients");
-const sortedClients = sortClients(clients);
 ---
 
 <Layout title="clients.lol - VRChat Client Directory">
-    <header class="page-header">
-        <h1 transition:name="home-title">Client Hub</h1>
-        <p class="subtitle">A curated directory of VRChat clients</p>
-    </header>
+  <header class="page-header">
+    <h1>VRChat Clients</h1>
+    <p class="subtitle">A directory of VRChat clients with features, pricing, and compatibility info.</p>
+  </header>
 
-    <section>
-        <p>
-            Discover the best VRChat clients with comprehensive information
-            about features, pricing, and quality. Each client is reviewed and
-            categorized for easy comparison.
-        </p>
-    </section>
+  <div class="controls">
+    <input type="text" id="search" placeholder="Search clients..." />
+  </div>
 
-    <hr />
+  <table id="clients-table">
+    <thead>
+      <tr>
+        <th class="sortable" data-type="string">Name</th>
+        <th class="sortable" data-type="string">Type</th>
+        <th class="sortable" data-type="string">OS</th>
+        <th class="sortable" data-type="string">Status</th>
+        <th class="sortable" data-type="number">Price</th>
+        <th>Features</th>
+      </tr>
+    </thead>
+    <tbody>
+      {clients.map((client) => (
+        <tr>
+          <td>{client.data.name}</td>
+          <td>{client.data.type}</td>
+          <td>{client.data.os}</td>
+          <td><span class={`status-${client.data.status.toLowerCase()}`}>{client.data.status}</span></td>
+          <td>{client.data.pricing.length > 0 ? client.data.pricing[0].price : '-'}</td>
+          <td>{client.data.features.slice(0, 3).join(", ")}{client.data.features.length > 3 ? ` +${client.data.features.length - 3} more` : ''}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
 
-    <Clients clients={sortedClients} />
+  <script>
+    const search = document.getElementById('search');
+    search.addEventListener('input', () => {
+      const value = search.value.toLowerCase();
+      const rows = document.querySelectorAll('#clients-table tbody tr');
+      
+      rows.forEach(row => {
+        const text = row.textContent.toLowerCase();
+        row.style.display = text.includes(value) ? '' : 'none';
+      });
+    });
 
-    <hr />
+    let currentSort = { column: -1, direction: 'asc' };
+    
+    document.querySelectorAll('th.sortable').forEach((header, index) => {
+      header.style.cursor = 'pointer';
+      header.addEventListener('click', () => {
+        const direction = currentSort.column === index && currentSort.direction === 'asc' ? 'desc' : 'asc';
+        sortTable(index, direction);
+      });
+    });
 
-    <section>
-        <h2>About</h2>
-        <p>
-            clients.lol is an independent directory providing unbiased
-            information about VRChat modification clients. We don't endorse or
-            affiliate with any specific client—our goal is to help users make
-            informed decisions.
-        </p>
-    </section>
-
-    <hr />
-
-    <section>
-        <h2>Get in touch</h2>
-        <p>Found an issue or want to suggest a client?</p>
-        <div class="links">
-            <a href={`mailto:${Config.email}`}>Email</a>
-            <a href={Config.github}>GitHub</a>
-        </div>
-    </section>
+    function sortTable(column, direction) {
+      const tbody = document.querySelector('#clients-table tbody');
+      const rows = Array.from(tbody.querySelectorAll('tr'));
+      
+      rows.sort((a, b) => {
+        const aVal = a.cells[column].textContent.trim();
+        const bVal = b.cells[column].textContent.trim();
+        
+        let comparison = 0;
+        if (aVal < bVal) comparison = -1;
+        if (aVal > bVal) comparison = 1;
+        
+        return direction === 'asc' ? comparison : -comparison;
+      });
+      
+      rows.forEach(row => tbody.appendChild(row));
+      currentSort = { column, direction };
+    }
+  </script>
 </Layout>
-
-<style>
-    .links {
-        display: flex;
-        gap: var(--space-4);
-        margin-top: var(--space-4);
-    }
-
-    .links a {
-        font-size: var(--text-sm);
-        font-weight: 500;
-    }
-</style>
