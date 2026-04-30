@@ -8,12 +8,13 @@ export default $config({
     };
   },
   async run() {
-    const site = new sst.cloudflare.StaticSite("Site", {
+    const site = new sst.cloudflare.StaticSiteV2("Site", {
       domain: $app.stage === "master" ? "clients.lol" : undefined,
       build: {
         command: "bun run build",
         output: "dist",
       },
+      notFound: "404",
     });
 
     return {
