@@ -3,224 +3,335 @@ import Layout from "../layouts/Layout.astro";
 import { getClients } from "../lib/clients";
 
 const clients = await getClients();
+const featureNames = [
+    ["movement", "Movement"],
+    ["esp", "ESP"],
+    ["teleports", "Teleports"],
+    ["vr", "VR"],
+    ["crashers", "Crashers"],
+    ["protections", "Protections"],
+] as const;
+
+const statuses = [...new Set(clients.map((client) => client.data.status))].sort();
+const accessTypes = [
+    ...new Set(clients.map((client) => client.data.access)),
+].sort();
+const operatingSystems = [
+    ...new Set(clients.map((client) => client.data.os)),
+].sort();
+
+function cell(value: string | undefined) {
+    return value || "-";
+}
+
+function bool(value: boolean) {
+    return value ? "Yes" : "-";
+}
 ---
 
 <Layout title="VRChat Client Database | clients.lol">
-    <header>
-        <div class="left">
-            <h1>clients.lol</h1>
-            <span class="slash"></span>
-            <p>An open-source database of VRChat clients</p>
-        </div>
-        <div class="right">
-            <a
-                class="github"
-                target="_blank"
-                rel="noopener noreferrer"
-                href="https://github.com/clients-lol/clients.lol"
-            >
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                >
-                    <path
-                        fill="currentColor"
-                        d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5c.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34c-.46-1.16-1.11-1.47-1.11-1.47c-.91-.62.07-.6.07-.6c1 .07 1.53 1.03 1.53 1.03c.87 1.52 2.34 1.07 2.91.83c.09-.65.35-1.09.63-1.34c-2.22-.25-4.55-1.11-4.55-4.92c0-1.11.38-2 1.03-2.71c-.1-.25-.45-1.29.1-2.64c0 0 .84-.27 2.75 1.02c.79-.22 1.65-.33 2.5-.33s1.71.11 2.5.33c1.91-1.29 2.75-1.02 2.75-1.02c.55 1.35.2 2.39.1 2.64c.65.71 1.03 1.6 1.03 2.71c0 3.82-2.34 4.66-4.57 4.91c.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2"
-                    ></path>
-                </svg>
-            </a>
-            <div class="search-container">
-                <input type="text" id="search" placeholder="Search clients" />
-                <span class="search-shortcut">⌘K</span>
+    <main>
+        <section class="controls" aria-label="Controls">
+            <div class="search-control">
+                <label for="search">Search</label>
+                <input
+                    id="search"
+                    type="search"
+                    autocomplete="off"
+                    placeholder="Search clients"
+                />
             </div>
-            <button id="help">How to use</button>
-        </div>
-    </header>
 
-    <table id="clients-table">
-        <thead>
-            <tr>
-                <th class="sortable" data-type="string"
-                    >Name <span class="sort-indicator"></span></th
-                >
-                <th class="sortable" data-type="string"
-                    >Type <span class="sort-indicator"></span></th
-                >
-                <th class="sortable" data-type="string"
-                    >OS <span class="sort-indicator"></span></th
-                >
-                <th class="sortable" data-type="string"
-                    >Status <span class="sort-indicator"></span></th
-                >
-                <th class="sortable" data-type="string"
-                    >Website <span class="sort-indicator"></span></th
-                >
-                <th class="sortable" data-type="string"
-                    >Access <span class="sort-indicator"></span></th
-                >
-                <th class="sortable" data-type="string"
-                    >Staff quality <span class="sort-indicator"></span></th
-                >
-                <th class="sortable capability" data-type="string"
-                    >Movement <span class="sort-indicator"></span></th
-                >
-                <th class="sortable capability" data-type="string"
-                    >ESP <span class="sort-indicator"></span></th
-                >
-                <th class="sortable capability" data-type="string"
-                    >Teleports <span class="sort-indicator"></span></th
-                >
-                <th class="sortable capability" data-type="string"
-                    >VR <span class="sort-indicator"></span></th
-                >
-                <th class="sortable capability" data-type="string"
-                    >Crashers <span class="sort-indicator"></span></th
-                >
-                <th class="sortable capability" data-type="string"
-                    >Protections <span class="sort-indicator"></span></th
-                >
-            </tr>
-        </thead>
-        <tbody>
-            {
-                clients.map((client) => (
+            <div class="filter-control">
+                <label for="status-filter">Status</label>
+                <select id="status-filter">
+                    <option value="">All</option>
+                    {statuses.map((status) => <option value={status}>{status}</option>)}
+                </select>
+            </div>
+
+            <div class="filter-control">
+                <label for="access-filter">Access</label>
+                <select id="access-filter">
+                    <option value="">All</option>
+                    {
+                        accessTypes.map((access) => (
+                            <option value={access}>{access}</option>
+                        ))
+                    }
+                </select>
+            </div>
+
+            <div class="filter-control">
+                <label for="os-filter">OS</label>
+                <select id="os-filter">
+                    <option value="">All</option>
+                    {operatingSystems.map((os) => <option value={os}>{os}</option>)}
+                </select>
+            </div>
+
+            <div class="filter-control">
+                <label for="feature-filter">Feature</label>
+                <select id="feature-filter">
+                    <option value="">All</option>
+                    {
+                        featureNames.map(([key, label]) => (
+                            <option value={key}>{label}</option>
+                        ))
+                    }
+                </select>
+            </div>
+
+            <button id="api-usage" type="button">API usage</button>
+        </section>
+
+        <p id="result-count" aria-live="polite">
+            Showing {clients.length} of {clients.length}
+        </p>
+
+        <div class="table-wrap">
+            <table id="clients-table">
+                <caption>
+                    VRChat client database. Click a row to show feature details.
+                </caption>
+                <thead>
                     <tr>
-                        <td>{client.data.name}</td>
-                        <td>{client.data.type}</td>
-                        <td>{client.data.os}</td>
-                        <td>{client.data.status}</td>
-                        <td>
-                            {client.data.website ? (
-                                <a
-                                    class="muted-link"
-                                    href={client.data.website}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    {client.data.website}
-                                </a>
-                            ) : (
-                                "-"
-                            )}
-                        </td>
-                        <td>{client.data.access}</td>
-                        <td>{client.data.staffQuality}</td>
-                        <td class="capability-cell">
-                            {client.data.features.movement ? "Yes" : "-"}
-                        </td>
-                        <td class="capability-cell">
-                            {client.data.features.esp ? "Yes" : "-"}
-                        </td>
-                        <td class="capability-cell">
-                            {client.data.features.teleports ? "Yes" : "-"}
-                        </td>
-                        <td class="capability-cell">
-                            {client.data.features.vr ? "Yes" : "-"}
-                        </td>
-                        <td class="capability-cell">
-                            {client.data.features.crashers ? "Yes" : "-"}
-                        </td>
-                        <td class="capability-cell">
-                            {client.data.features.protections ? "Yes" : "-"}
-                        </td>
+                        <th class="sortable" data-column="name">
+                            <button type="button">
+                                Name <span class="sort-indicator"></span>
+                            </button>
+                        </th>
+                        <th class="sortable" data-column="type">
+                            <button type="button">
+                                Type <span class="sort-indicator"></span>
+                            </button>
+                        </th>
+                        <th class="sortable" data-column="os">
+                            <button type="button">
+                                OS <span class="sort-indicator"></span>
+                            </button>
+                        </th>
+                        <th class="sortable" data-column="status">
+                            <button type="button">
+                                Status <span class="sort-indicator"></span>
+                            </button>
+                        </th>
+                        <th class="sortable" data-column="website">
+                            <button type="button">
+                                Website <span class="sort-indicator"></span>
+                            </button>
+                        </th>
+                        <th class="sortable" data-column="access">
+                            <button type="button">
+                                Access <span class="sort-indicator"></span>
+                            </button>
+                        </th>
+                        <th class="sortable" data-column="staff-quality">
+                            <button type="button">
+                                Staff quality <span class="sort-indicator"></span>
+                            </button>
+                        </th>
                     </tr>
-                ))
-            }
-        </tbody>
-    </table>
+                </thead>
+                <tbody>
+                    {
+                        clients.map((client) => {
+                            const enabledFeatures = featureNames
+                                .filter(([key]) => client.data.features[key])
+                                .map(([, label]) => label);
+                            const searchText = [
+                                client.data.name,
+                                client.data.type,
+                                client.data.os,
+                                client.data.status,
+                                client.data.website ?? "",
+                                client.data.access,
+                                client.data.staffQuality,
+                                enabledFeatures.join(" "),
+                            ]
+                                .join(" ")
+                                .toLowerCase();
+
+                            return (
+                                <>
+                                    <tr
+                                        class="client-row"
+                                        tabindex="0"
+                                        aria-expanded="false"
+                                        data-search={searchText}
+                                        data-status={client.data.status}
+                                        data-access={client.data.access}
+                                        data-os={client.data.os}
+                                        data-movement={String(
+                                            client.data.features.movement,
+                                        )}
+                                        data-esp={String(
+                                            client.data.features.esp,
+                                        )}
+                                        data-teleports={String(
+                                            client.data.features.teleports,
+                                        )}
+                                        data-vr={String(
+                                            client.data.features.vr,
+                                        )}
+                                        data-crashers={String(
+                                            client.data.features.crashers,
+                                        )}
+                                        data-protections={String(
+                                            client.data.features.protections,
+                                        )}
+                                    >
+                                        <td>{client.data.name}</td>
+                                        <td>{client.data.type}</td>
+                                        <td>{client.data.os}</td>
+                                        <td>{client.data.status}</td>
+                                        <td>
+                                            {client.data.website ? (
+                                                <a
+                                                    href={client.data.website}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                >
+                                                    {client.data.website}
+                                                </a>
+                                            ) : (
+                                                "-"
+                                            )}
+                                        </td>
+                                        <td>{client.data.access}</td>
+                                        <td>{client.data.staffQuality}</td>
+                                    </tr>
+                                    <tr class="detail-row" hidden>
+                                        <td colspan="7">
+                                            <div class="detail-panel">
+                                                <dl>
+                                                    <div>
+                                                        <dt>Movement</dt>
+                                                        <dd>
+                                                            {bool(
+                                                                client.data
+                                                                    .features
+                                                                    .movement,
+                                                            )}
+                                                        </dd>
+                                                    </div>
+                                                    <div>
+                                                        <dt>ESP</dt>
+                                                        <dd>
+                                                            {bool(
+                                                                client.data
+                                                                    .features
+                                                                    .esp,
+                                                            )}
+                                                        </dd>
+                                                    </div>
+                                                    <div>
+                                                        <dt>Teleports</dt>
+                                                        <dd>
+                                                            {bool(
+                                                                client.data
+                                                                    .features
+                                                                    .teleports,
+                                                            )}
+                                                        </dd>
+                                                    </div>
+                                                    <div>
+                                                        <dt>VR</dt>
+                                                        <dd>
+                                                            {bool(
+                                                                client.data
+                                                                    .features.vr,
+                                                            )}
+                                                        </dd>
+                                                    </div>
+                                                    <div>
+                                                        <dt>Crashers</dt>
+                                                        <dd>
+                                                            {bool(
+                                                                client.data
+                                                                    .features
+                                                                    .crashers,
+                                                            )}
+                                                        </dd>
+                                                    </div>
+                                                    <div>
+                                                        <dt>Protections</dt>
+                                                        <dd>
+                                                            {bool(
+                                                                client.data
+                                                                    .features
+                                                                    .protections,
+                                                            )}
+                                                        </dd>
+                                                    </div>
+                                                    <div>
+                                                        <dt>Website</dt>
+                                                        <dd>
+                                                            {
+                                                                cell(
+                                                                    client.data
+                                                                        .website,
+                                                                )
+                                                            }
+                                                        </dd>
+                                                    </div>
+                                                </dl>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </>
+                            );
+                        })
+                    }
+                </tbody>
+            </table>
+        </div>
+    </main>
 
     <dialog id="modal">
-        <div class="header">
-            <h2>How to use</h2>
-            <button id="close" aria-label="Close">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <line
-                        x1="18"
-                        y1="6"
-                        x2="6"
-                        y2="18"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"></line>
-                    <line
-                        x1="6"
-                        y1="6"
-                        x2="18"
-                        y2="18"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"></line>
-                </svg>
-            </button>
+        <div class="modal-head">
+            <h1>API usage</h1>
+            <button id="close" type="button" aria-label="Close">Close</button>
         </div>
-        <div class="body">
+        <div class="modal-body">
+            <p>Fetch the same client data as JSON.</p>
+            <pre><code>curl https://clients.lol/api.json</code></pre>
             <p>
-                <a href="/">clients.lol</a> is a directory of VRChat clients with
-                access, compatibility, and feature info.
+                Endpoint:
+                <a href="/api.json">https://clients.lol/api.json</a>
             </p>
-            <p>
-                Use search to filter rows and click a column header to sort the
-                table.
-            </p>
-            <h2>API</h2>
-            <p>You can access this data through an API.</p>
-            <div class="code-block">
-                <code
-                    >curl <a href="/api.json">https://clients.lol/api.json</a
-                    ></code
-                >
-            </div>
             <p>Use the client name as the main lookup field.</p>
-            <h2>Contribute</h2>
-            <p>
-                The data is stored in Markdown files in the repo. Edit the data
-                and open a pull request.
-            </p>
-        </div>
-        <div class="footer">
-            <a
-                href="https://github.com/clients-lol/clients.lol/tree/master/src/content/clients"
-                target="_blank"
-                rel="noopener noreferrer">Edit on GitHub</a
-            >
-            <a
-                href="https://github.com/clients-lol/clients.lol"
-                target="_blank"
-                rel="noopener noreferrer">Open a PR or issue</a
-            >
         </div>
     </dialog>
 
     <script>
         const modal = document.getElementById("modal");
         const modalClose = document.getElementById("close");
-        const help = document.getElementById("help");
+        const apiUsage = document.getElementById("api-usage");
         const search = document.getElementById("search");
+        const statusFilter = document.getElementById("status-filter");
+        const accessFilter = document.getElementById("access-filter");
+        const osFilter = document.getElementById("os-filter");
+        const featureFilter = document.getElementById("feature-filter");
         const table = document.getElementById("clients-table");
         const tbody = table.querySelector("tbody");
+        const resultCount = document.getElementById("result-count");
+        const totalRows = tbody.querySelectorAll(".client-row").length;
 
-        let y = 0;
+        let currentSort = { column: -1, direction: "asc" };
 
-        help.addEventListener("click", () => {
-            y = window.scrollY;
-            document.body.style.position = "fixed";
-            document.body.style.top = `-${y}px`;
+        apiUsage.addEventListener("click", () => {
             modal.showModal();
         });
 
         function closeDialog() {
             modal.close();
-            document.body.style.position = "";
-            document.body.style.top = "";
-            window.scrollTo(0, y);
         }
 
         modalClose.addEventListener("click", closeDialog);
         modal.addEventListener("cancel", closeDialog);
-        modal.addEventListener("click", (e) => {
-            if (e.target === modal) closeDialog();
+        modal.addEventListener("click", (event) => {
+            if (event.target === modal) closeDialog();
         });
 
         function getQueryParams() {
@@ -239,109 +350,201 @@ const clients = await getClients();
             window.history.pushState({}, "", newPath);
         }
 
-        function getColumnNameForURL(headerEl) {
-            const text = headerEl.textContent?.trim().toLowerCase() || "";
-            return text
-                .replace(/↑|↓/g, "")
-                .trim()
-                .split(/\s+/)
-                .slice(0, 2)
-                .join("-");
-        }
-
-        function getColumnIndexByUrlName(name) {
-            const headers = document.querySelectorAll("th.sortable");
-            return Array.from(headers).findIndex(
-                (header) => getColumnNameForURL(header) === name,
+        function getPairs() {
+            return Array.from(tbody.querySelectorAll(".client-row")).map(
+                (row) => ({
+                    row,
+                    detail: row.nextElementSibling,
+                }),
             );
         }
 
-        function getCellValue(cell) {
-            const text = cell.textContent?.trim() || "";
+        function getCellValue(row, column) {
+            const text = row.cells[column]?.textContent?.trim() || "";
             if (text === "-") return "";
             return text;
         }
 
-        let currentSort = { column: -1, direction: "asc" };
+        function rowMatches(row, query) {
+            const status = statusFilter.value;
+            const access = accessFilter.value;
+            const os = osFilter.value;
+            const feature = featureFilter.value;
 
-        function sortTable(column, direction) {
-            const header = document.querySelectorAll("th.sortable")[column];
-            currentSort = { column, direction };
-            updateQueryParams({
-                sort: getColumnNameForURL(header),
-                order: direction,
+            return (
+                (!query || row.dataset.search.includes(query)) &&
+                (!status || row.dataset.status === status) &&
+                (!access || row.dataset.access === access) &&
+                (!os || row.dataset.os === os) &&
+                (!feature || row.dataset[feature] === "true")
+            );
+        }
+
+        function applyFilters(shouldUpdateURL = true) {
+            const query = search.value.trim().toLowerCase();
+            let visibleRows = 0;
+
+            getPairs().forEach(({ row, detail }) => {
+                const visible = rowMatches(row, query);
+                row.hidden = !visible;
+                if (!visible) {
+                    row.setAttribute("aria-expanded", "false");
+                    detail.hidden = true;
+                } else if (row.getAttribute("aria-expanded") === "true") {
+                    detail.hidden = false;
+                } else {
+                    detail.hidden = true;
+                }
+                if (visible) visibleRows += 1;
             });
 
-            const rows = Array.from(tbody.querySelectorAll("tr"));
-            rows.sort((a, b) => {
-                const aValue = getCellValue(a.cells[column]);
-                const bValue = getCellValue(b.cells[column]);
+            resultCount.textContent = `Showing ${visibleRows} of ${totalRows}`;
+
+            if (shouldUpdateURL) {
+                updateQueryParams({
+                    search: query || null,
+                    status: statusFilter.value || null,
+                    access: accessFilter.value || null,
+                    os: osFilter.value || null,
+                    feature: featureFilter.value || null,
+                });
+            }
+        }
+
+        function setSortState(column, direction, shouldUpdateURL = true) {
+            const header = document.querySelectorAll("th.sortable")[column];
+            if (!header) return;
+
+            currentSort = { column, direction };
+            if (shouldUpdateURL) {
+                updateQueryParams({
+                    sort: header.dataset.column,
+                    order: direction,
+                });
+            }
+
+            const pairs = getPairs();
+            pairs.sort((a, b) => {
+                const aValue = getCellValue(a.row, column);
+                const bValue = getCellValue(b.row, column);
                 const comparison = aValue.localeCompare(bValue);
                 return direction === "asc" ? comparison : -comparison;
             });
-            rows.forEach((row) => tbody.appendChild(row));
 
-            document.querySelectorAll("th.sortable").forEach((th, i) => {
+            pairs.forEach(({ row, detail }) => {
+                tbody.appendChild(row);
+                tbody.appendChild(detail);
+            });
+
+            document.querySelectorAll("th.sortable").forEach((th, index) => {
                 const indicator = th.querySelector(".sort-indicator");
-                indicator.textContent =
-                    i === column ? (direction === "asc" ? "↑" : "↓") : "";
+                const active = index === column;
+                indicator.textContent = active
+                    ? direction === "asc"
+                        ? "↑"
+                        : "↓"
+                    : "";
+                th.setAttribute(
+                    "aria-sort",
+                    active
+                        ? direction === "asc"
+                            ? "ascending"
+                            : "descending"
+                        : "none",
+                );
             });
         }
 
-        search.addEventListener("input", () => {
-            const value = search.value.toLowerCase();
-            const rows = tbody.querySelectorAll("tr");
-
-            rows.forEach((row) => {
-                const text = row.textContent.toLowerCase();
-                row.style.display = text.includes(value) ? "" : "none";
+        function clearSortState() {
+            currentSort = { column: -1, direction: "asc" };
+            document.querySelectorAll("th.sortable").forEach((th) => {
+                th.querySelector(".sort-indicator").textContent = "";
+                th.setAttribute("aria-sort", "none");
             });
+        }
 
-            updateQueryParams({ search: value || null });
-        });
+        function getColumnIndexByUrlName(name) {
+            return Array.from(document.querySelectorAll("th.sortable")).findIndex(
+                (header) => header.dataset.column === name,
+            );
+        }
 
-        document.addEventListener("keydown", (e) => {
-            if ((e.metaKey || e.ctrlKey) && e.key === "k") {
-                e.preventDefault();
+        function toggleRow(row) {
+            const detail = row.nextElementSibling;
+            const expanded = row.getAttribute("aria-expanded") === "true";
+
+            row.setAttribute("aria-expanded", String(!expanded));
+            detail.hidden = expanded || row.hidden;
+        }
+
+        [search, statusFilter, accessFilter, osFilter, featureFilter].forEach(
+            (control) => {
+                control.addEventListener("input", () => applyFilters());
+            },
+        );
+
+        document.addEventListener("keydown", (event) => {
+            if ((event.metaKey || event.ctrlKey) && event.key === "k") {
+                event.preventDefault();
                 search.focus();
             }
         });
 
-        search.addEventListener("keydown", (e) => {
-            if (e.key === "Escape") {
+        search.addEventListener("keydown", (event) => {
+            if (event.key === "Escape") {
                 search.value = "";
-                search.dispatchEvent(new Event("input"));
+                applyFilters();
                 search.blur();
             }
         });
 
+        document.querySelectorAll(".client-row").forEach((row) => {
+            row.addEventListener("click", (event) => {
+                if (event.target.closest("a")) return;
+                toggleRow(row);
+            });
+            row.addEventListener("keydown", (event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    toggleRow(row);
+                }
+            });
+        });
+
         document.querySelectorAll("th.sortable").forEach((header, index) => {
-            header.addEventListener("click", () => {
+            header.setAttribute("aria-sort", "none");
+            header.querySelector("button").addEventListener("click", () => {
                 const direction =
                     currentSort.column === index &&
                     currentSort.direction === "asc"
                         ? "desc"
                         : "asc";
-                sortTable(index, direction);
+                setSortState(index, direction);
             });
         });
 
         function initializeFromURL() {
             const params = getQueryParams();
 
-            const searchQuery = params.get("search");
-            if (searchQuery) {
-                search.value = searchQuery;
-                search.dispatchEvent(new Event("input"));
-            }
+            search.value = params.get("search") || "";
+            statusFilter.value = params.get("status") || "";
+            accessFilter.value = params.get("access") || "";
+            osFilter.value = params.get("os") || "";
+            featureFilter.value = params.get("feature") || "";
+            applyFilters(false);
 
             const columnName = params.get("sort");
             if (columnName) {
                 const columnIndex = getColumnIndexByUrlName(columnName);
                 if (columnIndex !== -1) {
-                    const direction = params.get("order") || "asc";
-                    sortTable(columnIndex, direction);
+                    setSortState(
+                        columnIndex,
+                        params.get("order") || "asc",
+                        false,
+                    );
                 }
+            } else {
+                clearSortState();
             }
         }
 
