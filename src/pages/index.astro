@@ -20,10 +20,6 @@ const operatingSystems = [
     ...new Set(clients.map((client) => client.data.os)),
 ].sort();
 
-function cell(value: string | undefined) {
-    return value || "-";
-}
-
 function bool(value: boolean) {
     return value ? "Yes" : "-";
 }
@@ -262,17 +258,6 @@ function bool(value: boolean) {
                                                                     .features
                                                                     .protections,
                                                             )}
-                                                        </dd>
-                                                    </div>
-                                                    <div>
-                                                        <dt>Website</dt>
-                                                        <dd>
-                                                            {
-                                                                cell(
-                                                                    client.data
-                                                                        .website,
-                                                                )
-                                                            }
                                                         </dd>
                                                     </div>
                                                 </dl>
