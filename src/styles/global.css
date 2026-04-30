@@ -67,13 +67,34 @@ a {
   text-underline-offset: 2px;
 }
 
+.repo-link {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  place-items: center;
+  border: 1px solid var(--line);
+  color: var(--fg);
+  background: var(--bg);
+  text-decoration: none;
+}
+
+.repo-link:focus-visible {
+  color: var(--bg);
+  background: var(--fg);
+}
+
+.repo-link svg {
+  width: 16px;
+  height: 16px;
+}
+
 main {
   padding: 10px;
 }
 
 .controls {
   display: grid;
-  grid-template-columns: minmax(260px, 1fr) repeat(4, 150px) auto;
+  grid-template-columns: minmax(260px, 1fr) repeat(4, 150px) auto auto;
   gap: 8px;
   align-items: end;
   margin-bottom: 8px;
@@ -278,6 +299,6 @@ code {
   .controls {
     width: max-content;
     min-width: 100%;
-    grid-template-columns: minmax(220px, 1fr) repeat(4, 130px) auto;
+    grid-template-columns: minmax(220px, 1fr) repeat(4, 130px) auto auto;
   }
 }
