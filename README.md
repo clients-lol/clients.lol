@@ -11,7 +11,12 @@ bun install
 bun dev
 ```
 
-`bun dev` rebuilds the static site into `packages/web/dist` when files change.
+`bun dev` rebuilds the static site into `packages/web/dist` when files change
+and serves it at `http://localhost:6521`. Set `PORT` to use a different port:
+
+```bash
+PORT=3000 bun dev
+```
 
 Validate changes before opening a PR:
 

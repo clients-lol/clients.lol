@@ -109,6 +109,7 @@ function renderPage(clients: Record<string, ClientData>, css: string, app: strin
 <div class="filter-control"><label for="feature-filter">Feature</label><select id="feature-filter"><option value="">All</option>${featureNames.map(([key, label]) => `<option value="${key}">${escapeHtml(label)}</option>`).join("")}</select></div>
 <a class="repo-link" href="${escapeHtml(config.github)}" target="_blank" rel="noopener noreferrer" aria-label="View source on GitHub" title="GitHub repository">${repoIcon()}</a>
 <button id="api-usage" type="button">API usage</button>
+<button id="tools" type="button">Tools</button>
 </section>
 <p id="result-count" aria-live="polite">Showing ${rows.length} of ${rows.length}</p>
 <div class="table-wrap">
@@ -127,9 +128,13 @@ function renderPage(clients: Record<string, ClientData>, css: string, app: strin
 </table>
 </div>
 </main>
-<dialog id="modal">
-<div class="modal-head"><h1>API usage</h1><button id="close" type="button" aria-label="Close">Close</button></div>
-<div class="modal-body"><p>Fetch the same client data as JSON.</p><pre><code>curl https://clients.lol/api.json</code></pre><p>Endpoint: <a href="/api.json">https://clients.lol/api.json</a></p><p>Use the client name as the main lookup field.</p></div>
+<dialog id="tools-modal">
+<div class="modal-head"><h1>Tools</h1><button data-modal-close type="button" aria-label="Close">Close</button></div>
+<div class="modal-body"><p>Useful tools from clients.lol.</p><p><a href="https://spoof.clients.lol" target="_blank" rel="noopener noreferrer">Unicode Spoofer</a></p></div>
+</dialog>
+<dialog id="api-modal">
+<div class="modal-head"><h1>API usage</h1><button data-modal-close type="button" aria-label="Close">Close</button></div>
+<div class="modal-body"><p>Fetch the client database as JSON.</p><pre><code>curl https://clients.lol/api.json</code></pre><p>Use the client name as the main lookup field.</p></div>
 </dialog>
 <script type="module">${app}</script>
 </body>
@@ -153,4 +158,4 @@ await Promise.all([
   writeFile(path.join(outDir, "api.json"), `${JSON.stringify(clients, null, jsonIndent)}\n`),
 ]);
 
-console.log(`Built ${Object.keys(clients).length} clients into ${outDir}`);
+console.log(`[build] built ${Object.keys(clients).length} clients into ${outDir}`);

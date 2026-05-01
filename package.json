@@ -17,7 +17,7 @@
   "type": "module",
   "scripts": {
     "build": "bun ./packages/web/script/build.ts",
-    "dev": "bun --watch ./packages/web/script/build.ts",
+    "dev": "bun ./packages/web/script/dev.ts",
     "deploy": "sst deploy",
     "validate": "bun ./packages/core/script/validate.ts",
     "lint": "oxlint",

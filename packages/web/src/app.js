@@ -1,6 +1,7 @@
-const modal = document.getElementById("modal");
-const modalClose = document.getElementById("close");
+const apiModal = document.getElementById("api-modal");
 const apiUsage = document.getElementById("api-usage");
+const tools = document.getElementById("tools");
+const toolsModal = document.getElementById("tools-modal");
 const search = document.getElementById("search");
 const statusFilter = document.getElementById("status-filter");
 const accessFilter = document.getElementById("access-filter");
@@ -15,21 +16,26 @@ const oneRow = 1;
 
 let currentSort = { column: noColumn, direction: "asc" };
 
-apiUsage.addEventListener("click", () => {
-  modal.showModal();
-});
+function setupDialog(button, dialog) {
+  button.addEventListener("click", () => {
+    dialog.showModal();
+  });
 
-function closeDialog() {
-  modal.close();
+  const closeDialog = () => {
+    dialog.close();
+  };
+
+  dialog.querySelector("[data-modal-close]").addEventListener("click", closeDialog);
+  dialog.addEventListener("cancel", closeDialog);
+  dialog.addEventListener("click", (event) => {
+    if (event.target === dialog) {
+      closeDialog();
+    }
+  });
 }
 
-modalClose.addEventListener("click", closeDialog);
-modal.addEventListener("cancel", closeDialog);
-modal.addEventListener("click", (event) => {
-  if (event.target === modal) {
-    closeDialog();
-  }
-});
+setupDialog(apiUsage, apiModal);
+setupDialog(tools, toolsModal);
 
 function getQueryParams() {
   return new URLSearchParams(window.location.search);

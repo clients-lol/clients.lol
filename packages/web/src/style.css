@@ -94,7 +94,7 @@ main {
 
 .controls {
   display: grid;
-  grid-template-columns: minmax(260px, 1fr) repeat(4, 150px) auto auto;
+  grid-template-columns: minmax(260px, 1fr) repeat(4, 150px) auto auto auto;
   gap: 8px;
   align-items: end;
   margin-bottom: 8px;
@@ -299,6 +299,6 @@ code {
   .controls {
     width: max-content;
     min-width: 100%;
-    grid-template-columns: minmax(220px, 1fr) repeat(4, 130px) auto auto;
+    grid-template-columns: minmax(220px, 1fr) repeat(4, 130px) auto auto auto;
   }
 }

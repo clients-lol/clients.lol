@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "build": "bun ./script/build.ts",
-    "dev": "bun --watch ./script/build.ts"
+    "dev": "bun ./script/dev.ts"
   },
   "dependencies": {
     "@clients-lol/core": "workspace:*"
