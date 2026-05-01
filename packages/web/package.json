@@ -1,5 +1,5 @@
 {
-  "name": "@clients-lol/web",
+  "name": "@clients/web",
   "version": "0.0.1",
   "type": "module",
   "scripts": {
@@ -7,7 +7,7 @@
     "dev": "bun ./script/dev.ts"
   },
   "dependencies": {
-    "@clients-lol/core": "workspace:*"
+    "@clients/core": "workspace:*"
   },
   "devDependencies": {
     "@tsconfig/bun": "catalog:",

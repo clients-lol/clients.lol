@@ -3,7 +3,7 @@
 import { mkdir, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 
-import { generate, type ClientData } from "@clients-lol/core";
+import { generate, type ClientData } from "@clients/core";
 
 import config from "../config";
 
