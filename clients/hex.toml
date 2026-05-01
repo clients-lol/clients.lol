@@ -1,0 +1,11 @@
+name = "Hex"
+os = "Windows"
+type = "Standalone"
+status = "Active"
+staffQuality = "Good"
+access = "Paid"
+website = "https://hexclient.com"
+
+[features]
+movement = true
+esp = true

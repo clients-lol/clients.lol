@@ -1,0 +1,12 @@
+name = "Exo"
+os = "Windows"
+type = "Standalone"
+status = "Active"
+staffQuality = "Average"
+access = "Free"
+website = "https://exo-engine.com"
+
+[features]
+movement = true
+esp = true
+vr = true

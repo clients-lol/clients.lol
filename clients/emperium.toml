@@ -1,0 +1,12 @@
+name = "Emperium"
+os = "Linux"
+type = "BepInEx"
+status = "Active"
+staffQuality = "Good"
+access = "Free"
+website = "https://discord.gg/myuWgYP8WS"
+
+[features]
+movement = true
+esp = true
+vr = true

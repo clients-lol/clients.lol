@@ -1,0 +1,12 @@
+name = "Hollow"
+os = "Windows"
+type = "Standalone"
+status = "Active"
+staffQuality = "Good"
+access = "Paid"
+website = "https://hollow.enterprises"
+
+[features]
+movement = true
+esp = true
+protections = true

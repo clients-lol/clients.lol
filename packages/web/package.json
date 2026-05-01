@@ -1,0 +1,17 @@
+{
+  "name": "@clients-lol/web",
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "build": "bun ./script/build.ts",
+    "dev": "bun --watch ./script/build.ts"
+  },
+  "dependencies": {
+    "@clients-lol/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@tsconfig/bun": "catalog:",
+    "@types/bun": "catalog:",
+    "@types/node": "catalog:"
+  }
+}

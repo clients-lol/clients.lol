@@ -1,0 +1,13 @@
+name = "Sephiria"
+os = "Windows"
+type = "Standalone"
+status = "Active"
+staffQuality = "Good"
+access = "Paid"
+website = "https://unknownvrc.win"
+
+[features]
+movement = true
+esp = true
+vr = true
+crashers = true

@@ -1,0 +1,13 @@
+name = "Serenade"
+os = "Windows & Linux"
+type = "Abyss Loader"
+status = "Active"
+staffQuality = "Good"
+access = "Paid"
+website = "https://vrc.serenade.rip"
+
+[features]
+movement = true
+vr = true
+crashers = true
+protections = true

@@ -1,0 +1,13 @@
+name = "Hexedware"
+os = "Windows"
+type = "Standalone"
+status = "Active"
+staffQuality = "Good"
+access = "Paid"
+website = "https://hexed.cc"
+
+[features]
+movement = true
+esp = true
+vr = true
+crashers = true

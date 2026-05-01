@@ -21,21 +21,6 @@
     "no-duplicate-imports": "error",
     "eqeqeq": "error",
     "curly": "error",
-    "no-trailing-spaces": "error",
-    "no-multiple-empty-lines": "warn",
-    "eol-last": "error",
-    "comma-dangle": ["error", "always-multiline"],
-    "quotes": ["error", "double"],
-    "semi": ["error", "always"],
-    "indent": ["error", 2],
-    "object-curly-spacing": ["error", "always"],
-    "array-bracket-spacing": ["error", "never"],
-    "space-before-function-paren": ["error", "never"],
-    "keyword-spacing": "error",
-    "space-infix-ops": "error",
-    "no-spaced-func": "error",
-    "brace-style": ["error", "1tbs"],
-    "max-len": ["warn", { "code": 100, "ignoreUrls": true }],
     "typescript/prefer-readonly": "warn",
     "typescript/no-unnecessary-type-assertion": "error",
     "typescript/no-non-null-assertion": "warn",
@@ -55,7 +40,6 @@
   },
   "globals": {
     "Env": "readonly",
-    "Astro": "readonly",
     "fetch": "readonly",
     "Request": "readonly",
     "Response": "readonly"
@@ -77,24 +61,34 @@
         "typescript/triple-slash-reference": "off",
         "no-console": "off",
         "no-ternary": "off",
+        "no-undefined": "off",
         "sort-keys": "off",
         "require-await": "off"
       }
     },
     {
-      "files": ["*.astro"],
+      "files": ["packages/**/*.ts", "packages/**/*.js"],
       "rules": {
-        "no-unused-vars": "off",
-        "typescript/no-explicit-any": "off",
-        "sort-imports": "off",
+        "func-style": "off",
+        "no-console": "warn",
         "no-ternary": "off",
-        "sort-keys": "off"
+        "sort-imports": "off"
       }
     },
     {
-      "files": ["src/**/*.astro", "src/**/*.ts", "src/**/*.js"],
+      "files": ["packages/core/script/**/*.ts", "packages/web/script/**/*.ts"],
       "rules": {
-        "no-console": "error"
+        "max-lines-per-function": "off",
+        "max-statements": "off",
+        "no-console": "off"
+      }
+    },
+    {
+      "files": ["packages/web/src/**/*.js"],
+      "rules": {
+        "id-length": "off",
+        "max-statements": "off",
+        "sort-keys": "off"
       }
     },
     {

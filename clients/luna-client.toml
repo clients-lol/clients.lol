@@ -1,0 +1,11 @@
+name = "Luna Client"
+os = "Windows"
+type = "Unix Loader"
+status = "Active"
+staffQuality = "Unknown"
+access = "Free"
+
+[features]
+movement = true
+esp = true
+protections = true

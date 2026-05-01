@@ -12,7 +12,7 @@ export default $config({
       domain: $app.stage === "master" ? "clients.lol" : undefined,
       build: {
         command: "bun run build",
-        output: "dist",
+        output: "packages/web/dist",
       },
       notFound: "404",
     });
