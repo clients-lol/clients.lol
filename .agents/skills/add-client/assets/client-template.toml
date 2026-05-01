@@ -1,0 +1,15 @@
+name = "Example Client"
+os = "Windows"
+type = "Standalone"
+status = "Active"
+staffQuality = "Unknown"
+access = "Free"
+website = "https://example.com"
+
+[features]
+movement = false
+esp = false
+teleports = false
+vr = false
+crashers = false
+protections = false
