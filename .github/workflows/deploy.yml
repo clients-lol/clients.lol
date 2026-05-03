@@ -11,7 +11,6 @@ concurrency: ${{ github.workflow }}-${{ github.ref }}
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: SST
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
