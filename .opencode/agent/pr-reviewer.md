@@ -4,12 +4,14 @@ hidden: true
 model: opencode-go/deepseek-v4-flash
 tools:
   "*": false
+  skill: true
 ---
 
 You are reviewing clients.lol pull requests with multiple specialized review
 skills.
 
-Use these skills as the source of truth for reviewer behavior:
+Use the skill tool to load these skills as the source of truth for reviewer
+behavior:
 
 - generated-output
 - dependency-review
