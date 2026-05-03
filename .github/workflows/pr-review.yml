@@ -1,4 +1,4 @@
-name: Client PR Review
+name: PR Review
 
 on:
   pull_request_target:
@@ -28,7 +28,7 @@ jobs:
       - name: Install opencode
         run: curl -fsSL https://opencode.ai/install | bash
 
-      - name: Run deterministic client PR review
+      - name: Run deterministic PR review
         env:
           GITHUB_REPOSITORY: ${{ github.repository }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -47,7 +47,7 @@ jobs:
             exit 0
           fi
 
-          if COMMENT=$(opencode run --agent client-pr-reviewer "$(cat review-findings.md)"); then
+          if COMMENT=$(opencode run --agent pr-reviewer "$(cat review-findings.md)"); then
             echo "opencode reviewer completed"
           else
             COMMENT=""
@@ -71,7 +71,7 @@ jobs:
           COMMENT_BODY: ${{ steps.draft.outputs.body }}
         with:
           script: |
-            const marker = '<!-- client-pr-reviewer -->';
+            const marker = '<!-- pr-reviewer -->';
             const body = process.env.COMMENT_BODY;
             const issue_number = context.payload.pull_request.number;
 

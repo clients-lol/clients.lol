@@ -18,6 +18,7 @@ const missingOutput = "";
 type FindingSeverity = "error" | "warning";
 
 interface Finding {
+  readonly skill: string;
   readonly title: string;
   readonly body: string;
   readonly path?: string;
@@ -43,6 +44,13 @@ interface PullRequestSnapshot {
   readonly fetchFile: (file: ChangedFile) => Promise<string | void>;
   readonly fetchUrl?: (url: string) => Promise<UrlCheck>;
   readonly title: string;
+}
+
+interface ReviewSkill {
+  readonly name: string;
+  readonly review: (
+    snapshot: PullRequestSnapshot,
+  ) => Promise<readonly Finding[]> | readonly Finding[];
 }
 
 interface UrlCheck {
@@ -85,25 +93,101 @@ const urlPlaceholderPatterns = [/example/i, /placeholder/i, /your-?/i, /todo/i, 
 export async function reviewPullRequestSnapshot(
   snapshot: PullRequestSnapshot,
 ): Promise<readonly Finding[]> {
-  const findings: Finding[] = [];
-  const { changedFiles } = snapshot;
-  const clientFiles = changedFiles.filter((file) => isClientFile(file.filename));
+  const skills: readonly ReviewSkill[] = [
+    generatedOutputSkill,
+    dependencyReviewSkill,
+    workflowSecuritySkill,
+    clientDatabaseSkill,
+  ];
+  const findings = await Promise.all(skills.map((skill) => skill.review(snapshot)));
+  return findings.flat();
+}
 
-  for (const file of changedFiles) {
-    if (generatedPrefixes.some((prefix) => file.filename.startsWith(prefix))) {
-      findings.push({
+const generatedOutputSkill: ReviewSkill = {
+  name: "Generated output",
+  review(snapshot) {
+    return snapshot.changedFiles
+      .filter((file) => generatedPrefixes.some((prefix) => file.filename.startsWith(prefix)))
+      .map((file) => ({
         body: "Generated deploy output should not be committed. Remove the generated dist files from this PR.",
         path: file.filename,
         severity: "error",
+        skill: this.name,
         title: "Generated dist file committed",
+      }));
+  },
+};
+
+const dependencyReviewSkill: ReviewSkill = {
+  name: "Dependency changes",
+  review(snapshot) {
+    const filenames = new Set(snapshot.changedFiles.map((file) => file.filename));
+    const findings: Finding[] = [];
+
+    if (
+      [...filenames].some((filename) => filename.endsWith("package.json")) &&
+      !filenames.has("bun.lock")
+    ) {
+      findings.push({
+        body: "This PR changes a package manifest without updating `bun.lock`. Run `bun install` and commit the lockfile if dependency versions changed.",
+        severity: warning,
+        skill: this.name,
+        title: "Package manifest changed without lockfile",
       });
     }
-  }
+
+    if (
+      filenames.has("bun.lock") &&
+      ![...filenames].some((filename) => filename.endsWith("package.json"))
+    ) {
+      findings.push({
+        body: "`bun.lock` changed without a package manifest change. Confirm this lockfile-only update is intentional.",
+        path: "bun.lock",
+        severity: warning,
+        skill: this.name,
+        title: "Lockfile changed by itself",
+      });
+    }
+
+    return findings;
+  },
+};
+
+const workflowSecuritySkill: ReviewSkill = {
+  name: "Workflow security",
+  review(snapshot) {
+    return snapshot.changedFiles
+      .filter((file) => file.filename.startsWith(".github/workflows/"))
+      .map((file) => ({
+        body: "Workflow changes can alter repository automation and token permissions. Maintainers should verify triggers, permissions, and any use of `pull_request_target` before merging.",
+        path: file.filename,
+        severity: warning,
+        skill: this.name,
+        title: "GitHub Actions workflow changed",
+      }));
+  },
+};
+
+const clientDatabaseSkill: ReviewSkill = {
+  name: "Client database",
+  async review(snapshot) {
+    return reviewClientDatabase(snapshot, this.name);
+  },
+};
+
+async function reviewClientDatabase(
+  snapshot: PullRequestSnapshot,
+  skill: string,
+): Promise<readonly Finding[]> {
+  const findings: Finding[] = [];
+  const { changedFiles } = snapshot;
+  const clientFiles = changedFiles.filter((file) => isClientFile(file.filename));
 
   if (clientFiles.length > 1) {
     findings.push({
       body: `This PR changes ${clientFiles.length} client TOML files. Client database PRs should normally add or update one client at a time.`,
       severity: "warning",
+      skill,
       title: "Multiple client files changed",
     });
   }
@@ -114,6 +198,7 @@ export async function reviewPullRequestSnapshot(
         body: "Client removal should be called out explicitly in the PR description so maintainers can verify it is intentional.",
         path: file.filename,
         severity: "warning",
+        skill,
         title: "Client file removed",
       });
       continue;
@@ -125,13 +210,14 @@ export async function reviewPullRequestSnapshot(
         body: "Could not read this client TOML file from the PR head. Please verify the file content manually.",
         path: file.filename,
         severity: "warning",
+        skill,
         title: "Unable to read changed client file",
       });
       continue;
     }
 
     const clientID = path.basename(file.filename, tomlExtension);
-    findings.push(...(await reviewClientFile(file.filename, clientID, content, snapshot)));
+    findings.push(...(await reviewClientFile(file.filename, clientID, content, snapshot, skill)));
   }
 
   return findings;
@@ -142,6 +228,7 @@ async function reviewClientFile(
   clientID: string,
   content: string,
   snapshot: PullRequestSnapshot,
+  skill: string,
 ): Promise<readonly Finding[]> {
   const findings: Finding[] = [];
   const parsed = parseToml(filename, content);
@@ -152,6 +239,7 @@ async function reviewClientFile(
         body: parsed.message,
         path: filename,
         severity: "error",
+        skill,
         title: "Invalid TOML",
       },
     ];
@@ -167,18 +255,21 @@ async function reviewClientFile(
       body: formatZodError(client.error),
       path: filename,
       severity: "error",
+      skill,
       title: "Client schema mismatch",
     });
   }
 
   const rawName = readStringProperty(parsed, "name");
   if (rawName) {
-    findings.push(...findSimilarNames(clientID, rawName, snapshot.existingClients, filename));
+    findings.push(
+      ...findSimilarNames(clientID, rawName, snapshot.existingClients, filename, skill),
+    );
   }
 
   const rawWebsite = readStringProperty(parsed, "website");
   if (rawWebsite) {
-    findings.push(...(await reviewUrl(rawWebsite, filename, snapshot)));
+    findings.push(...(await reviewUrl(rawWebsite, filename, snapshot, skill)));
   }
 
   return findings;
@@ -213,6 +304,7 @@ function findSimilarNames(
   clientName: string,
   existingClients: readonly ExistingClient[],
   filename: string,
+  skill: string,
 ): readonly Finding[] {
   const normalizedName = normalizeName(clientName);
   const similar = existingClients.filter((client) => {
@@ -236,6 +328,7 @@ function findSimilarNames(
     body: `This client name is similar to existing entry \`${client.name}\` in \`${client.path}\`. Confirm this is a distinct client and not a duplicate/update.`,
     path: filename,
     severity: warning,
+    skill,
     title: "Similar existing client name",
   }));
 }
@@ -244,6 +337,7 @@ async function reviewUrl(
   rawWebsite: string,
   filename: string,
   snapshot: PullRequestSnapshot,
+  skill: string,
 ): Promise<readonly Finding[]> {
   const findings: Finding[] = [];
   const parsed = parseWebsite(rawWebsite);
@@ -254,6 +348,7 @@ async function reviewUrl(
         body: `The website value \`${rawWebsite}\` is not a valid URL.`,
         path: filename,
         severity: "error",
+        skill,
         title: "Invalid website URL",
       },
     ];
@@ -264,6 +359,7 @@ async function reviewUrl(
       body: "Prefer an HTTPS website or invite URL when one is available.",
       path: filename,
       severity: warning,
+      skill,
       title: "Website URL is not HTTPS",
     });
   }
@@ -277,6 +373,7 @@ async function reviewUrl(
       body: `The website value \`${rawWebsite}\` looks like a placeholder, shortener, or non-source URL. Please provide a reliable public URL or omit \`website\`.`,
       path: filename,
       severity: warning,
+      skill,
       title: "Suspicious website URL",
     });
   }
@@ -287,6 +384,7 @@ async function reviewUrl(
       body: "The PR description does not mention this website or domain. Add a source note for the URL, or omit it if it cannot be verified.",
       path: filename,
       severity: warning,
+      skill,
       title: "Website URL lacks PR source context",
     });
   }
@@ -299,6 +397,7 @@ async function reviewUrl(
         body: `The website URL did not pass a basic reachability check:${status} ${check.reason}`,
         path: filename,
         severity: warning,
+        skill,
         title: "Website URL may be unreachable",
       });
     }
@@ -487,15 +586,15 @@ function formatFindings(findings: readonly Finding[]): string {
   }
 
   const lines = [
-    "<!-- client-pr-reviewer -->",
-    "Client PR reviewer found items that need maintainer or contributor attention:",
+    "<!-- pr-reviewer -->",
+    "PR reviewer found items that need maintainer or contributor attention:",
     "",
   ];
 
   for (const finding of findings) {
     const prefix = finding.severity === "error" ? "Error" : "Warning";
     const location = finding.path ? ` in \`${finding.path}\`` : "";
-    lines.push(`- **${prefix}: ${finding.title}**${location}`);
+    lines.push(`- **${prefix}: ${finding.skill} - ${finding.title}**${location}`);
     lines.push(finding.body);
     lines.push("");
   }

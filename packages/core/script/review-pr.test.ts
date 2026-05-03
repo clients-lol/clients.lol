@@ -92,7 +92,40 @@ describe("reviewPullRequestSnapshot", () => {
 
     expect(findings).toContainEqual(
       expect.objectContaining({
+        skill: "Generated output",
         title: "Generated dist file committed",
+      }),
+    );
+  });
+
+  test("flags package manifest and workflow review concerns", async () => {
+    const findings = await reviewPullRequestSnapshot({
+      body: "",
+      changedFiles: [
+        {
+          filename: "package.json",
+          status: "modified",
+        },
+        {
+          filename: ".github/workflows/deploy.yml",
+          status: "modified",
+        },
+      ],
+      existingClients,
+      fetchFile: () => Promise.resolve(),
+      title: "chore: update automation",
+    });
+
+    expect(findings).toContainEqual(
+      expect.objectContaining({
+        skill: "Dependency changes",
+        title: "Package manifest changed without lockfile",
+      }),
+    );
+    expect(findings).toContainEqual(
+      expect.objectContaining({
+        skill: "Workflow security",
+        title: "GitHub Actions workflow changed",
       }),
     );
   });
@@ -113,6 +146,7 @@ describe("reviewPullRequestSnapshot", () => {
 
     expect(findings).toContainEqual(
       expect.objectContaining({
+        skill: "Client database",
         title: "Client schema mismatch",
       }),
     );
