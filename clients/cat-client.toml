@@ -1,0 +1,15 @@
+name = "Cat Client"
+os = "Linux"
+type = "BepInEx"
+status = "Active"
+staffQuality = "Good"
+access = "Free"
+website = "https://discord.gg/V3GpuQDGJu"
+
+[features]
+movement = true
+esp = true
+teleports = true
+vr = true
+crashers = false
+protections = false
