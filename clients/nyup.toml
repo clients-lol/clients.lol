@@ -1,0 +1,15 @@
+name = "Nyup"
+os = "Windows"
+type = "Standalone"
+status = "Active"
+staffQuality = "Good"
+access = "Paid"
+website = "https://nyup.net/"
+
+[features]
+movement = true
+esp = true
+teleports = true
+vr = true
+crashers = true
+protections = true
