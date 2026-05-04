@@ -3,7 +3,7 @@ os = "Windows"
 type = "Standalone"
 status = "Active"
 staffQuality = "Unknown"
-access = "Free"
+access = "Free"   # Free | Invite | Paid
 website = "https://example.com"
 
 [features]

@@ -15,7 +15,7 @@ export const Features = z
 
 export const Client = z
   .object({
-    access: z.enum(["Free", "Paid"]),
+    access: z.enum(["Free", "Invite", "Paid"]),
     features: Features,
     id: z.string(),
     lastUpdated: z.coerce.date().optional(),

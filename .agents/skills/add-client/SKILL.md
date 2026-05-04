@@ -69,7 +69,7 @@ Allowed values:
 
 - `status`: `Active`, `Inactive`, `Discontinued`, `Unknown`
 - `staffQuality`: `Excellent`, `Good`, `Average`, `Poor`, `Unknown`
-- `access`: `Free`, `Paid`
+- `access`: `Free`, `Invite`, `Paid`
 - Feature values: `true` or `false`
 
 ## Data Quality Rules
