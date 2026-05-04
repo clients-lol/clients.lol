@@ -1,11 +1,14 @@
 name = "Raven"
 os = "Windows"
 type = "Standalone"
-status = "Active"
+status = "Inactive"
 staffQuality = "Average"
 access = "Free"
 
 [features]
 movement = true
+esp = true
+teleports = true
+vr = false
 crashers = true
 protections = true

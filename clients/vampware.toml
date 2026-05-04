@@ -8,4 +8,7 @@ access = "Paid"
 [features]
 movement = true
 esp = true
+teleports = true
 vr = true
+crashers = false
+protections = true

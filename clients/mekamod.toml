@@ -4,9 +4,12 @@ type = "MelonLoader"
 status = "Active"
 staffQuality = "Average"
 access = "Paid"
+website = "https://discord.gg/Qtt4G8cURs"
 
 [features]
 movement = true
 esp = true
 teleports = true
 vr = true
+crashers = false
+protections = false

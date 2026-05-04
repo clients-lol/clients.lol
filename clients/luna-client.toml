@@ -8,4 +8,7 @@ access = "Free"
 [features]
 movement = true
 esp = true
+teleports = true
+vr = false
+crashers = false
 protections = true

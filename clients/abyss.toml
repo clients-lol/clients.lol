@@ -9,4 +9,7 @@ website = "https://discord.gg/PsxTepWNYg"
 [features]
 movement = true
 esp = true
+teleports = true
+vr = true
 crashers = true
+protections = true

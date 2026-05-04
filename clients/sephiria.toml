@@ -3,11 +3,13 @@ os = "Windows"
 type = "Standalone"
 status = "Active"
 staffQuality = "Good"
-access = "Paid"
+access = "Invite"
 website = "https://unknownvrc.win"
 
 [features]
 movement = true
 esp = true
+teleports = true
 vr = true
 crashers = true
+protections = true

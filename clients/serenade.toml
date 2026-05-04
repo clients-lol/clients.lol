@@ -8,6 +8,8 @@ website = "https://vrc.serenade.rip"
 
 [features]
 movement = true
+esp = true
+teleports = true
 vr = true
 crashers = true
 protections = true
