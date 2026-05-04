@@ -29,11 +29,8 @@ function escapeHtml(value: unknown): string {
     .replaceAll("'", "&#39;");
 }
 
-function bool(value: boolean): string {
-  if (value) {
-    return "Yes";
-  }
-  return "-";
+function bool(value: unknown): string {
+  return value ? "Yes" : "No";
 }
 
 function option(value: string): string {
