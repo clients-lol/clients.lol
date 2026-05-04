@@ -3,7 +3,7 @@ os = "Windows"
 type = "Standalone"
 status = "Active"
 staffQuality = "Good"
-access = "Paid"
+access = "Invite"
 website = "https://nyup.net/"
 
 [features]
