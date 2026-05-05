@@ -127,7 +127,7 @@ function renderPage(clients: Record<string, ClientData>, css: string, app: strin
 </main>
 <dialog id="tools-modal">
 <div class="modal-head"><h1>Tools</h1><button data-modal-close type="button" aria-label="Close">Close</button></div>
-<div class="modal-body"><p>Useful tools from clients.lol.</p><p><a href="https://spoof.clients.lol" target="_blank" rel="noopener noreferrer">Unicode Spoofer</a></p></div>
+<div class="modal-body"><p>Useful tools from clients.lol.</p><p><a href="https://unicode.clients.lol" target="_blank" rel="noopener noreferrer">Unicode Spoofer</a></p></div>
 </dialog>
 <dialog id="api-modal">
 <div class="modal-head"><h1>API usage</h1><button data-modal-close type="button" aria-label="Close">Close</button></div>
