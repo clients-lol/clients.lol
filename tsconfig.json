@@ -4,8 +4,9 @@
   "compilerOptions": {
     "allowImportingTsExtensions": true,
     "noEmit": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "types": ["bun", "node"]
   },
   "include": ["packages/**/*.ts", "sst.config.ts"],
-  "exclude": [".sst", "dist", "packages/web/dist"]
+  "exclude": [".sst", "dist", "packages/web/dist", "sst-env.d.ts", "packages/*/sst-env.d.ts"]
 }
