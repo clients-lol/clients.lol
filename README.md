@@ -107,8 +107,12 @@ Unknown
 
 ```text
 Free
+Invite
 Paid
 ```
+
+Use `Invite` for clients with private or gated access, regardless of whether
+payment is required.
 
 Feature values must be `true` or `false`.
 
