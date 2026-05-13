@@ -1,10 +1,10 @@
 name = "Exo"
 os = "Windows"
 type = "Standalone"
-status = "Active"
-staffQuality = "Average"
-access = "Free"
-website = "https://exo-engine.com"
+status = "Inactive"
+staffQuality = "Good"
+access = "Paid"
+website = "https://discord.gg/yMHTVPXRAq"
 
 [features]
 movement = true
